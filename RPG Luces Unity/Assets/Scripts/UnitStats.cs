@@ -2,13 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class UnitStats : MonoBehaviour
+[System.Serializable]
+public class UnitStats
 {
-    public float health;
-    public float mana;
-    public float attack;
-    public float defense;
-    public float magic;
-    public float speed;
-    public string type;
+    public enum Color
+    {
+        BLUE,
+        RED,
+        GREEN,
+        YELLOW,
+        PURPLE,
+        LIGHT_BLUE,
+        WHITE,
+        BLACK
+    }
+
+    public float maxHealth;
+    public float actualHealth;
+
+    public float maxMana;
+    public float actualMana;
+
+    public float maxAttack;
+    public float actualAttack;
+
+    public float maxDefense;
+    public float actualDefense;
+
+    public float maxMagic;
+    public float actualMagic;
+
+    public float maxSpeed;
+    public float actualSpeed;
+
+    public Color actualColor;
+
+    public bool isStrategist;
+    
 }
