@@ -18,11 +18,20 @@ public class BattleStateMachine : MonoBehaviour
     public List<GameObject> heroesInBattle = new List<GameObject>(); //List of heroes in battle
     public List<GameObject> enemiesInBattle = new List<GameObject>(); //List of enemies in battle
 
+    public GameObject centerOfTheBattleground;
+
     private void Start()
     {
         battleState = PerformAction.WAIT;
         enemiesInBattle.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
         heroesInBattle.AddRange(GameObject.FindGameObjectsWithTag("Hero"));
+
+        //Assign the center of the battleground to all enemies
+        foreach(GameObject enemy in enemiesInBattle)
+        {
+            EnemyStateMachine ESM = enemy.GetComponent<EnemyStateMachine>();
+            ESM.centerOfTheBattleground = centerOfTheBattleground;
+        }
     }
 
     void Update()
@@ -32,11 +41,23 @@ public class BattleStateMachine : MonoBehaviour
             case PerformAction.WAIT:
                 if (actionsInTurn.Count>0)
                 {
-                    battleState = PerformAction.TAKE_ACTION;
+                    battleState = PerformAction.PERFORM_ACTION;
                 }
                 break;
 
             case PerformAction.TAKE_ACTION:
+                GameObject performer = actionsInTurn[0].attackerGameObject;
+                if (actionsInTurn[0].type == "Enemy")
+                {
+                    EnemyStateMachine ESM = performer.GetComponent<EnemyStateMachine>();
+                    ESM.actualState = EnemyStateMachine.TurnState.ACTION;
+                }
+
+                if (actionsInTurn[0].type == "Hero")
+                {
+
+                }
+                battleState = PerformAction.PERFORM_ACTION;
 
                 break;
 

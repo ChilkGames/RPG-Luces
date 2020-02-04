@@ -191,6 +191,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 165737546}
   m_CullTransparentMesh: 0
+--- !u!1 &213878903
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 213878904}
+  m_Layer: 0
+  m_Name: Center Of The Battleground
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &213878904
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 213878903}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.08, y: 0.02, z: -6.54}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 11
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &270858627
 GameObject:
   m_ObjectHideFlags: 0
@@ -644,9 +674,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 795772048}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3932c62c903bae64d83cf5c9997f0306, type: 3}
+  m_Script: {fileID: 11500000, guid: ca84301588f2fe143aa1553a57b12a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 0
+    actualHealth: 0
+    maxMana: 0
+    actualMana: 0
+    maxAttack: 0
+    actualAttack: 0
+    maxDefense: 0
+    actualDefense: 0
+    maxMagic: 0
+    actualMagic: 0
+    maxSpeed: 0
+    actualSpeed: 0
+    actualColor: 0
+    isStrategist: 0
   actualState: 0
 --- !u!65 &795772050
 BoxCollider:
@@ -1392,6 +1437,7 @@ MonoBehaviour:
   actionsInTurn: []
   heroesInBattle: []
   enemiesInBattle: []
+  centerOfTheBattleground: {fileID: 213878903}
 --- !u!4 &1070384283
 Transform:
   m_ObjectHideFlags: 0
@@ -1662,9 +1708,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1449931068}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3932c62c903bae64d83cf5c9997f0306, type: 3}
+  m_Script: {fileID: 11500000, guid: ca84301588f2fe143aa1553a57b12a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 0
+    actualHealth: 0
+    maxMana: 0
+    actualMana: 0
+    maxAttack: 0
+    actualAttack: 0
+    maxDefense: 0
+    actualDefense: 0
+    maxMagic: 0
+    actualMagic: 0
+    maxSpeed: 0
+    actualSpeed: 0
+    actualColor: 0
+    isStrategist: 0
   actualState: 0
 --- !u!65 &1449931070
 BoxCollider:
@@ -2072,6 +2133,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   actualState: 0
+  playersToAttack: []
+  centerOfTheBattleground: {fileID: 213878903}
 --- !u!65 &1614224845
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2372,9 +2435,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1839635851}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3932c62c903bae64d83cf5c9997f0306, type: 3}
+  m_Script: {fileID: 11500000, guid: ca84301588f2fe143aa1553a57b12a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 0
+    actualHealth: 0
+    maxMana: 0
+    actualMana: 0
+    maxAttack: 0
+    actualAttack: 0
+    maxDefense: 0
+    actualDefense: 0
+    maxMagic: 0
+    actualMagic: 0
+    maxSpeed: 0
+    actualSpeed: 0
+    actualColor: 0
+    isStrategist: 0
   actualState: 0
 --- !u!65 &1839635853
 BoxCollider:
@@ -2699,9 +2777,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 2012321379}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3932c62c903bae64d83cf5c9997f0306, type: 3}
+  m_Script: {fileID: 11500000, guid: ca84301588f2fe143aa1553a57b12a6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 0
+    actualHealth: 0
+    maxMana: 0
+    actualMana: 0
+    maxAttack: 0
+    actualAttack: 0
+    maxDefense: 0
+    actualDefense: 0
+    maxMagic: 0
+    actualMagic: 0
+    maxSpeed: 0
+    actualSpeed: 0
+    actualColor: 0
+    isStrategist: 0
   actualState: 0
 --- !u!65 &2012321381
 BoxCollider:
