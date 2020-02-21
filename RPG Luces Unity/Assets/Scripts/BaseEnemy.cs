@@ -6,8 +6,6 @@ public class BaseEnemy : MonoBehaviour
 {
     public UnitStats stats;
 
-    public string enemyName;
-
     // Start is called before the first frame update
     void Start()
     {

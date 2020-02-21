@@ -10,4 +10,6 @@ public class TurnHandler
     public string type;
     public GameObject attackerGameObject;
     public List<GameObject> targets; //List of targets of the attack
+
+    public BaseAttack attack;
 }

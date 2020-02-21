@@ -8,27 +8,34 @@ public class EnemyStateMachine : MonoBehaviour
 
     private BaseEnemy enemy;
 
+    public GameObject selector;
+
     public enum TurnState
     {
+        PROCESSING,
+        CHOOSE_ACTION,
         WAITING,
-        CHOOSEACTION,
         ACTION,
         DEAD
     }
     public TurnState actualState;
 
-    public List<GameObject> playersToAttack;
+    public List<GameObject> heroesToAttack;
+    private GameObject heroToAttack;
 
     private bool actionStarted;
 
     private Vector3 startPosition;
 
-    private GameObject heroToAttack;
+    public BaseAttack choosenAttack;
+
     public GameObject centerOfTheBattleground;
     private bool isAreaAttack;
 
     private float timer;
-    private float animSpeed;
+
+    [Range(0.0f, 10.0f)]
+    public float animSpeed;
 
     void Start()
     {
@@ -36,20 +43,21 @@ public class EnemyStateMachine : MonoBehaviour
         BSM = FindObjectOfType<BattleStateMachine>();
         startPosition = transform.position;
 
-        actualState = TurnState.WAITING;
+        actualState = TurnState.PROCESSING;
 
         timer = 5;
-        animSpeed = 5;
+        selector = transform.Find("Selector").gameObject;
+        selector.SetActive(false);
     }
 
     void Update()
     {
         switch (actualState)
         {
-            case TurnState.WAITING:
+            case TurnState.PROCESSING:
                 if (timer<=0)
                 {
-                    actualState = TurnState.CHOOSEACTION;
+                    actualState = TurnState.CHOOSE_ACTION;
                 }
                 else
                 {
@@ -57,9 +65,12 @@ public class EnemyStateMachine : MonoBehaviour
                 }
                 break;
 
-            case TurnState.CHOOSEACTION:
+            case TurnState.CHOOSE_ACTION:
                 ChooseAction();
-                actualState = TurnState.ACTION;
+                actualState = TurnState.WAITING;
+                break;
+
+            case TurnState.WAITING:
                 break;
 
             case TurnState.ACTION:
@@ -78,26 +89,15 @@ public class EnemyStateMachine : MonoBehaviour
     void ChooseAction()
     {
         //Test function to decide if the attack is gonna be an area attack or not. This must be replaced with a call to the enemy IA, returning a list with the enemies to attack.
-        float testIA = Random.Range(0, 2);
-        if (testIA%2==0)
-        {
-            playersToAttack = BSM.heroesInBattle;
-        }
-        else
-        {
-            heroToAttack = BSM.heroesInBattle[Random.Range(0, BSM.heroesInBattle.Count)];
-            playersToAttack = new List<GameObject>
-            {
-                heroToAttack
-            };
-        }
+
 
         TurnHandler myAttack = new TurnHandler()
         {
-            attacker = enemy.enemyName,
+            attacker = enemy.stats.myName,
             type = "Enemy",
             attackerGameObject = gameObject,
-            targets = playersToAttack
+            attack = IA(),
+            targets = heroesToAttack
         };
 
         isAreaAttack = myAttack.targets.Count > 1 ? true : false;
@@ -136,7 +136,7 @@ public class EnemyStateMachine : MonoBehaviour
         //attack animation
         yield return new WaitForSeconds(1);
 
-        //do damage
+        DoDamage();
 
         Vector3 initialPosition = startPosition;
 
@@ -148,7 +148,7 @@ public class EnemyStateMachine : MonoBehaviour
 
         actionStarted = false;
         timer = 5; //reset timer
-        actualState = TurnState.WAITING;
+        actualState = TurnState.PROCESSING;
     }
 
     /// <summary>
@@ -179,5 +179,39 @@ public class EnemyStateMachine : MonoBehaviour
     private bool MoveToCenter(Vector3 center)
     {
         return center != (transform.position = Vector3.MoveTowards(transform.position, center, animSpeed * Time.deltaTime));
+    }
+
+    private void DoDamage()
+    {
+        foreach (GameObject actualHero in heroesToAttack)
+        {
+            float damage = CalculateDamage();
+            actualHero.GetComponent<PlayerStateMachine>().TakeDamage(damage);
+        }
+    }
+
+    private float CalculateDamage()
+    {
+        return (enemy.stats.actualAttack + BSM.actionsInTurn[0].attack.baseDamage);
+    }
+
+    public BaseAttack IA()
+    {
+        float testIA = Random.Range(0, 2);
+        if (testIA % 2 == 0)
+        {
+            heroesToAttack = BSM.heroesInBattle;
+            return enemy.stats.listOfAttacks.Find(x => x.attackName.Equals("Circular Slash"));
+        }
+        else
+        {
+            heroToAttack = BSM.heroesInBattle[Random.Range(0, BSM.heroesInBattle.Count)];
+            heroesToAttack = new List<GameObject>
+            {
+                heroToAttack
+            };
+            return enemy.stats.listOfAttacks.Find(x => x.attackName.Equals("Slash"));
+        }
+
     }
 }
