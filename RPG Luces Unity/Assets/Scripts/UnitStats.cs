@@ -5,6 +5,10 @@ using UnityEngine;
 [System.Serializable]
 public class UnitStats
 {
+    public string myName;
+
+    public int level;
+
     public enum Color
     {
         BLUE,
@@ -38,5 +42,7 @@ public class UnitStats
     public Color actualColor;
 
     public bool isStrategist;
+
+    public List<BaseAttack> listOfAttacks;
     
 }

@@ -6,7 +6,7 @@ public class BaseHero : MonoBehaviour
 {
     public UnitStats stats;
 
-    public string heroName;
+    public int orderOfAttack;
 
     // Start is called before the first frame update
     void Start()
