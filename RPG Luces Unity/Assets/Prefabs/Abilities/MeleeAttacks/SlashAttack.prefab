@@ -48,3 +48,10 @@ MonoBehaviour:
   baseDamage: 5
   manaCost: 0
   isAreaAttack: 0
+  levelRequirement: 0
+  colors:
+  - actualColor: 0
+  - actualColor: 0
+  - actualColor: 0
+  jobsRequirement:
+    actualJob: 0
