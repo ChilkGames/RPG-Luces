@@ -9,18 +9,6 @@ public class UnitStats
 
     public int level;
 
-    public enum Color
-    {
-        BLUE,
-        RED,
-        GREEN,
-        YELLOW,
-        PURPLE,
-        LIGHT_BLUE,
-        WHITE,
-        BLACK
-    }
-
     public float maxHealth;
     public float actualHealth;
 
@@ -38,8 +26,6 @@ public class UnitStats
 
     public float maxSpeed;
     public float actualSpeed;
-
-    public Color actualColor;
 
     public bool isStrategist;
 

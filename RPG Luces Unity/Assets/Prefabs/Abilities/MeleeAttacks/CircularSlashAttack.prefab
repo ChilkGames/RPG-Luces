@@ -48,3 +48,6 @@ MonoBehaviour:
   baseDamage: 2
   manaCost: 0
   isAreaAttack: 1
+  levelRequirement: 0
+  jobs:
+    actualJob: 2
