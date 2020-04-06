@@ -10,8 +10,8 @@ public class JobsEnum
     {
         PALADIN,
         BLOODKNIGHT,
+        CASTERDPS,
+        RANGER,
         ALL
     };
-
-    public Jobs actualJob;
 }

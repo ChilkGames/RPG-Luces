@@ -39,18 +39,27 @@ public class BattleStateMachine : MonoBehaviour
     public GameObject centerOfTheBattleground;
 
     public GameObject enemyButton;
-
-    public Transform spacer;
+    public GameObject actionButton;
+    public GameObject attackButton;
 
     public GameObject actionsPanel;
+    public GameObject attackPanel;
+    public GameObject magicPanel;
+    private GameObject activePanel;
     public GameObject enemySelectPanel;
-    public GameObject allEnemiesPanel;
+
+    public Transform enemySpacer;
+    public Transform attackSpacer;
+    public Transform magicSpacer;
+    public Transform actionSpacer;
+
+    public List<GameObject> atkButtons = new List<GameObject>();
 
     private void Start()
     {
         actionsPanel.SetActive(false);
         enemySelectPanel.SetActive(false);
-        allEnemiesPanel.SetActive(false);
+        activePanel = actionsPanel;
 
         battleState = PerformAction.WAIT;
         heroInput = HeroGUI.ACTIVATE;
@@ -132,7 +141,9 @@ public class BattleStateMachine : MonoBehaviour
                     heroesToManage[0].transform.Find("Selector").gameObject.SetActive(true);
                     heroChoice = new TurnHandler();
 
-                    actionsPanel.SetActive(true);
+                    ChangePanels(actionsPanel);
+                    CreateButtons();
+
                     heroInput = HeroGUI.WAITING;
                 }
                 break;
@@ -173,21 +184,8 @@ public class BattleStateMachine : MonoBehaviour
 
             button.enemyPrefab = enemy;
 
-            newButton.transform.SetParent(spacer);
+            newButton.transform.SetParent(enemySpacer);
         }
-    }
-
-    /// <summary>
-    /// Input from the panel
-    /// </summary>
-    public void ActionInput()
-    {
-        heroChoice.attacker = heroesToManage[0].GetComponent<BaseHero>().stats.myName;
-        heroChoice.attackerGameObject = heroesToManage[0];
-        heroChoice.type = "Hero";
-
-        actionsPanel.SetActive(false);
-        enemySelectPanel.SetActive(true);
     }
 
     /// <summary>
@@ -220,7 +218,8 @@ public class BattleStateMachine : MonoBehaviour
     void HeroInputDone()
     {
         actionsInTurn.Add(heroChoice);
-        enemySelectPanel.SetActive(false);
+        activePanel.SetActive(false);
+        DestroyButtons();
         heroesToManage[0].transform.Find("Selector").gameObject.SetActive(false);
         heroesToManage.RemoveAt(0);
         heroInput = HeroGUI.ACTIVATE;
@@ -229,5 +228,161 @@ public class BattleStateMachine : MonoBehaviour
     private void OrderTurns()
     {
 
+    }
+
+    private void CreateButtons()
+    {
+        GameObject attackButton = Instantiate(actionButton) as GameObject;
+        attackButton.name = "AttackButton";
+        Text attackButtonText = attackButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        attackButtonText.text = "Attack";
+        attackButton.GetComponent<Button>().onClick.AddListener(() => OpenAttacksMenu());
+        attackButton.transform.SetParent(actionSpacer,false);
+        atkButtons.Add(attackButton);
+
+        GameObject magicButton = Instantiate(actionButton) as GameObject;
+        magicButton.name = "MagicButton";
+        Text magicButtonText = magicButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        magicButtonText.text = "Magic";
+        magicButton.GetComponent<Button>().onClick.AddListener(() => OpenMagicMenu());
+        magicButton.transform.SetParent(actionSpacer, false);
+        atkButtons.Add(magicButton);
+
+        GameObject defendButton = Instantiate(actionButton) as GameObject;
+        defendButton.name = "DefendButton";
+        Text defendButtonText = defendButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        defendButtonText.text = "Defend";
+        defendButton.GetComponent<Button>().onClick.AddListener(() => Defend());
+        defendButton.transform.SetParent(actionSpacer, false);
+        atkButtons.Add(defendButton);
+
+        GameObject itemButton = Instantiate(actionButton) as GameObject;
+        itemButton.name = "ItemButton";
+        Text itemButtonText = itemButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        itemButtonText.text = "Item";
+        itemButton.GetComponent<Button>().onClick.AddListener(() => OpenItemsMenu());
+        itemButton.transform.SetParent(actionSpacer, false);
+        atkButtons.Add(itemButton);
+
+        GameObject runButton = Instantiate(actionButton) as GameObject;
+        runButton.name = "RunButton";
+        Text runButtonText = runButton.transform.Find("Text").gameObject.GetComponent<Text>();
+        runButtonText.text = "Run";
+        runButton.GetComponent<Button>().onClick.AddListener(() => Run());
+        runButton.transform.SetParent(actionSpacer, false);
+        atkButtons.Add(runButton);
+
+
+        if (heroesToManage[0].GetComponent<PlayerStateMachine>().hero.stats.meleeAttacks.Count > 0)
+        {
+            foreach (BaseAttack actualMelee in heroesToManage[0].GetComponent<PlayerStateMachine>().hero.stats.meleeAttacks)
+            {
+                GameObject meleeButton = Instantiate(this.attackButton) as GameObject;
+                Text meleeButtonText = meleeButton.transform.Find("Text").gameObject.GetComponent<Text>();
+                meleeButtonText.text = actualMelee.attackName;
+                AttackButtons ATB = meleeButton.GetComponent<AttackButtons>();
+                ATB.attackToPerform = actualMelee;
+                meleeButton.transform.SetParent(attackSpacer, false);
+                atkButtons.Add(meleeButton);
+            }
+            GameObject returnButtonFromMelee = Instantiate(actionButton) as GameObject;
+            returnButtonFromMelee.name = "Return";
+            Text returnButtonFromMeleeText = returnButtonFromMelee.transform.Find("Text").gameObject.GetComponent<Text>();
+            returnButtonFromMeleeText.text = "Return";
+            returnButtonFromMelee.GetComponent<Button>().onClick.AddListener(() => ChangePanels(actionsPanel));
+            returnButtonFromMelee.transform.SetParent(attackSpacer, false);
+            atkButtons.Add(returnButtonFromMelee);
+        }
+        else
+        {
+            attackButton.GetComponent<Button>().interactable = false;
+        }
+
+        if (heroesToManage[0].GetComponent<PlayerStateMachine>().hero.stats.magicAttacks.Count>0)
+        {
+            foreach(BaseAttack actualMagic in heroesToManage[0].GetComponent<PlayerStateMachine>().hero.stats.magicAttacks)
+            {
+                GameObject spellButton = Instantiate(this.attackButton) as GameObject;
+                Text spellButtonText = spellButton.transform.Find("Text").gameObject.GetComponent<Text>();
+                spellButtonText.text = actualMagic.attackName;
+                AttackButtons ATB = spellButton.GetComponent<AttackButtons>();
+                ATB.attackToPerform = actualMagic;
+                spellButton.transform.SetParent(magicSpacer, false);
+                atkButtons.Add(spellButton);
+                if (heroesToManage[0].GetComponent<PlayerStateMachine>().hero.stats.actualMana < actualMagic.manaCost)
+                    spellButton.GetComponent<Button>().interactable = false;
+            }
+            GameObject returnButtonFromMagic = Instantiate(actionButton) as GameObject;
+            returnButtonFromMagic.name = "Return";
+            Text returnButtonFromMagicText = returnButtonFromMagic.transform.Find("Text").gameObject.GetComponent<Text>();
+            returnButtonFromMagicText.text = "Return";
+            returnButtonFromMagic.GetComponent<Button>().onClick.AddListener(() => ChangePanels(actionsPanel));
+            returnButtonFromMagic.transform.SetParent(magicSpacer, false);
+            atkButtons.Add(returnButtonFromMagic);
+        }
+        else
+        {
+            magicButton.GetComponent<Button>().interactable = false;
+        }
+    }
+
+    private void ChangePanels(GameObject panelToActivate)
+    {
+        activePanel.SetActive(false);
+        panelToActivate.SetActive(true);
+        activePanel = panelToActivate;
+    }
+
+    private void OpenAttacksMenu()
+    {
+        ChangePanels(attackPanel);
+    }
+
+    private void OpenMagicMenu()
+    {
+        ChangePanels(magicPanel);
+    }
+
+    private void OpenItemsMenu()
+    {
+        Debug.Log("Open Item Menu");
+    }
+
+    private void Run()
+    {
+        Debug.Log("Run From Battle");
+    }
+
+    private void Defend()
+    {
+        Debug.Log("Defend From an attack");
+    }
+
+    /// <summary>
+    /// Input from the panel
+    /// </summary>
+    public void AttackInput(BaseAttack choosenAttack)
+    {
+        heroChoice.attacker = heroesToManage[0].GetComponent<BaseHero>().stats.myName;
+        heroChoice.attackerGameObject = heroesToManage[0];
+        heroChoice.type = "Hero";
+        heroChoice.attack = choosenAttack;
+        if (!choosenAttack.isAreaAttack)
+        {
+            ChangePanels(enemySelectPanel);
+        }
+        else
+        {
+            AllEnemiesSelectionInput();
+        }
+    }
+
+    public void DestroyButtons()
+    {
+        foreach (GameObject actualButton in atkButtons)
+        {
+            Destroy(actualButton);
+        }
+        atkButtons.Clear();
     }
 }

@@ -29,17 +29,22 @@ public class BaseAttack : MonoBehaviour
     /// <summary>
     /// List of jobs that can use this attack.
     /// </summary>
-    public JobsEnum jobsRequirement;
+    public JobsEnum.Jobs jobsRequirement;
 
     /// <summary>
     /// List of colors used
     /// </summary>
-    public Dictionary<string, ColorsEnum.Colors> listOfColors;
+    public Dictionary<string, ColorsEnum.Colors> listOfColors = new Dictionary<string, ColorsEnum.Colors>();
+
+    /// <summary>
+    /// Determines if the attack is a buff attack
+    /// </summary>
+    public bool isBuff;
 
     /// <summary>
     /// Percentage of the color´s damage.
     /// </summary>
-    public Dictionary<string, float> percentageOfColor;
+    public Dictionary<string, float> percentageOfColor = new Dictionary<string, float>();
 
     protected void AddColor(string name, ColorsEnum.Colors colors, float percentage)
     {

@@ -201,7 +201,7 @@ public class EnemyStateMachine : MonoBehaviour
         if (testIA % 2 == 0)
         {
             heroesToAttack = BSM.heroesInBattle;
-            return enemy.stats.listOfAttacks.Find(x => x.attackName.Equals("Circular Slash"));
+            return enemy.stats.meleeAttacks.Find(x => x.attackName.Equals("Circular Slash"));
         }
         else
         {
@@ -210,7 +210,7 @@ public class EnemyStateMachine : MonoBehaviour
             {
                 heroToAttack
             };
-            return enemy.stats.listOfAttacks.Find(x => x.attackName.Equals("Slash"));
+            return enemy.stats.meleeAttacks.Find(x => x.attackName.Equals("Slash"));
         }
 
     }

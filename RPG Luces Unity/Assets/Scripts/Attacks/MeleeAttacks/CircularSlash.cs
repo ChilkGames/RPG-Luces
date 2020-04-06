@@ -10,6 +10,10 @@ public class CircularSlash : BaseAttack
         baseDamage = 2;
         manaCost = 0;
         isAreaAttack = true;
+        levelRequirement = 5;
+        jobsRequirement = JobsEnum.Jobs.PALADIN;
+
+        isBuff = false;
 
         attackDescription = "Slashes multiples enemies.";
     }
