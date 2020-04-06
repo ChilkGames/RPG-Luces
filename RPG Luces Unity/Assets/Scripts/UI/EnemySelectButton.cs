@@ -14,11 +14,6 @@ public class EnemySelectButton : MonoBehaviour
         FindObjectOfType<BattleStateMachine>().GetComponent<BattleStateMachine>().UniqueEnemySelectionInput(enemyPrefab);
     }
 
-    public void SelectAllEnemies()
-    {
-        FindObjectOfType<BattleStateMachine>().GetComponent<BattleStateMachine>().AllEnemiesSelectionInput();
-    }
-
     public void ShowEnemySelector()
     {
         enemyPrefab.transform.Find("Selector").gameObject.SetActive(true);
@@ -27,21 +22,5 @@ public class EnemySelectButton : MonoBehaviour
     public void HideEnemySelector()
     {
         enemyPrefab.transform.Find("Selector").gameObject.SetActive(false);
-    }
-
-    public void ShowAllEnemiesSelector()
-    {
-        foreach(GameObject actualEnemy in FindObjectOfType<BattleStateMachine>().GetComponent<BattleStateMachine>().enemiesInBattle)
-        {
-            actualEnemy.transform.Find("Selector").gameObject.SetActive(true);
-        }
-    }
-
-    public void HideAllEnemiesSelector()
-    {
-        foreach (GameObject actualEnemy in FindObjectOfType<BattleStateMachine>().GetComponent<BattleStateMachine>().enemiesInBattle)
-        {
-            actualEnemy.transform.Find("Selector").gameObject.SetActive(false);
-        }
     }
 }

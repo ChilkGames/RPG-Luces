@@ -17,6 +17,4 @@ public class ColorsEnum
         WHITE,
         BLACK
     }
-
-    public Colors actualColor;
 }

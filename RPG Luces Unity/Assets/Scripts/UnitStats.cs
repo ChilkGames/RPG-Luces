@@ -29,6 +29,11 @@ public class UnitStats
 
     public bool isStrategist;
 
-    public List<BaseAttack> listOfAttacks;
-    
+    public List<BaseAttack> meleeAttacks;
+
+    public List<BaseAttack> magicAttacks;
+
+    public ColorsEnum.Colors actualColor;
+
+    public JobsEnum.Jobs actualJob;
 }

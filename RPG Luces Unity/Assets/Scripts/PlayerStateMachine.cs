@@ -6,7 +6,7 @@ public class PlayerStateMachine : MonoBehaviour
 {
     private BattleStateMachine BSM;
 
-    private BaseHero hero;
+    public BaseHero hero;
 
     public GameObject selector;
 
@@ -37,10 +37,17 @@ public class PlayerStateMachine : MonoBehaviour
     private float timer;
 
     private bool isAlive = true;
+
+    private HeroPanel heroPanelStats;
+    public GameObject heroPanel;
+    private Transform heroPanelSpacer;
+
     // Start is called before the first frame update
     void Start()
     {
         hero = GetComponent<BaseHero>();
+        heroPanelSpacer = GameObject.Find("LeftPanel").transform.Find("Spacer").GetComponent<Transform>();
+        CreateHeroPanel();
         BSM = FindObjectOfType<BattleStateMachine>();
         actualState = TurnState.PROCESSING;
         startPosition = transform.position;
@@ -79,12 +86,12 @@ public class PlayerStateMachine : MonoBehaviour
                 else
                 {
                     gameObject.tag = "DeadHero";
+                    BSM.DestroyButtons();
                     BSM.heroesInBattle.Remove(gameObject);
                     BSM.heroesToManage.Remove(gameObject);
                     selector.SetActive(false);
                     BSM.actionsPanel.SetActive(false);
                     BSM.enemySelectPanel.SetActive(false);
-                    BSM.allEnemiesPanel.SetActive(false);
                     for (int i = 0; i<BSM.actionsInTurn.Count; i++)
                     {
                         if (BSM.actionsInTurn[i].attackerGameObject == this)
@@ -193,10 +200,29 @@ public class PlayerStateMachine : MonoBehaviour
 
     public void TakeDamage(float damageAmmount)
     {
-        hero.stats.actualHealth -= damageAmmount;
+        hero.stats.actualHealth -= damageAmmount;        
         if (hero.stats.actualHealth<=0)
         {
+            hero.stats.actualHealth = 0;
             actualState = TurnState.DEAD;
         }
+        UpdateHeroPanel();
+    }
+
+    private void CreateHeroPanel()
+    {
+        heroPanel = Instantiate(heroPanel) as GameObject;
+        heroPanelStats = heroPanel.GetComponent<HeroPanel>();
+        heroPanelStats.heroName.text = hero.stats.myName;
+        heroPanelStats.heroHp.text = "HP: " + hero.stats.actualHealth + "/" + hero.stats.maxHealth;
+        heroPanelStats.heroMp.text = "MP: " + hero.stats.actualMana + "/" + hero.stats.maxMana;
+
+        heroPanel.transform.SetParent(heroPanelSpacer, false);
+    }
+
+    private void UpdateHeroPanel()
+    {
+        heroPanelStats.heroHp.text = "HP: " + hero.stats.actualHealth + "/" + hero.stats.maxHealth;
+        heroPanelStats.heroMp.text = "MP: " + hero.stats.actualMana + "/" + hero.stats.maxMana; 
     }
 }

@@ -10,6 +10,9 @@ public class Slash : BaseAttack
         baseDamage = 5;
         manaCost = 0;
         isAreaAttack = false;
+        isBuff = false;
+        jobsRequirement = JobsEnum.Jobs.ALL;
+        levelRequirement = 1;
 
         attackDescription = "Slashes one enemy.";
     }
