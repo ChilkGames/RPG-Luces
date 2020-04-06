@@ -17,14 +17,35 @@ AP: similar to the HP the AP is Lv based. This unit has 50 as max AP
 
 --------------------------------------------------------------------------------------------------------------------------------------------
 
-DMG calculation
+DMG PHYS calculation
 For this example we will take the IMPACT ability of the Paladin.
 
 IMPACT: Delivers an attack with a power of 200
 
-DMG w/o any equipment: (POWER/100) * STR so it would be (200/100) * 50 = 100
+Fist = 0dmg
+
+//DMG w/o any equipment: (POWER/100 + W. DMG) * STR so it would be (200/100) * 50 = 100
 
 DMG with equipment: (POWER/100 + WEAPON DAMAGE) * STR lets say the WPD (Weapon Damage) is equal to 25. So it would be (200/100 + 25) * 50 = 1.350
 
 --------------------------------------------------------------------------------------------------------------------------------------------
+DEX 
+
+D. VEL = ACT SOONER OR LATER
+
+EVA = EVASION
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+INT = Magic dmg
+
+--------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
 
