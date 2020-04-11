@@ -37,6 +37,11 @@ public class BaseAttack : MonoBehaviour
     public Dictionary<string, ColorsEnum.Colors> listOfColors = new Dictionary<string, ColorsEnum.Colors>();
 
     /// <summary>
+    /// If true, the attack is melee attack. If not, it´s magic attack.
+    /// </summary>
+    public bool isMeleeAttack;
+
+    /// <summary>
     /// Determines if the attack is a buff attack
     /// </summary>
     public bool isBuff;

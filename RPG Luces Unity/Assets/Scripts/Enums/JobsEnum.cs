@@ -12,6 +12,7 @@ public class JobsEnum
         BLOODKNIGHT,
         CASTERDPS,
         RANGER,
+        MONSTER,
         ALL
     };
 }

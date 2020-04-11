@@ -13,6 +13,7 @@ public class CircularSlash : BaseAttack
         levelRequirement = 5;
         jobsRequirement = JobsEnum.Jobs.PALADIN;
 
+        isMeleeAttack = true;
         isBuff = false;
 
         attackDescription = "Slashes multiples enemies.";

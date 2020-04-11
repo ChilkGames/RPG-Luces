@@ -13,6 +13,7 @@ public class Slash : BaseAttack
         isBuff = false;
         jobsRequirement = JobsEnum.Jobs.ALL;
         levelRequirement = 1;
+        isMeleeAttack = true;
 
         attackDescription = "Slashes one enemy.";
     }

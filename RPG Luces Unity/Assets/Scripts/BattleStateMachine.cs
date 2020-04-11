@@ -9,7 +9,10 @@ public class BattleStateMachine : MonoBehaviour
     {
         WAIT,
         TAKE_ACTION,
-        PERFORM_ACTION
+        PERFORM_ACTION,
+        CHECK_ALIVE,
+        WIN,
+        LOSE
     }
 
     public PerformAction battleState;
@@ -38,22 +41,23 @@ public class BattleStateMachine : MonoBehaviour
 
     public GameObject centerOfTheBattleground;
 
-    public GameObject enemyButton;
-    public GameObject actionButton;
-    public GameObject attackButton;
+    public GameObject enemyButton; //Pregab of enemy button
+    public GameObject actionButton; //Prefab of action button
+    public GameObject attackButton; //Prefab of attack button (melee and magic)
 
-    public GameObject actionsPanel;
-    public GameObject attackPanel;
-    public GameObject magicPanel;
-    private GameObject activePanel;
-    public GameObject enemySelectPanel;
+    public GameObject actionsPanel; //Panel with basic actions
+    public GameObject attackPanel; //Panel with character's melee attacks
+    public GameObject magicPanel; //Panel with character's spells
+    public GameObject enemySelectPanel; //Panel with enemies buttons
+    private GameObject activePanel; //Actual active panel
 
-    public Transform enemySpacer;
+    public Transform enemySpacer; //Spacers to organize buttons
     public Transform attackSpacer;
     public Transform magicSpacer;
     public Transform actionSpacer;
 
-    public List<GameObject> atkButtons = new List<GameObject>();
+    public List<GameObject> atkButtons = new List<GameObject>(); // List of buttons of a character 
+    public List<GameObject> enemiesButtons = new List<GameObject>(); // List of enemmies buttons for the attack panel
 
     private void Start()
     {
@@ -131,6 +135,42 @@ public class BattleStateMachine : MonoBehaviour
             case PerformAction.PERFORM_ACTION:
 
                 break;
+
+            case PerformAction.CHECK_ALIVE:
+                if (heroesInBattle.Count<1)
+                {
+                    Debug.Log("Cambio a Lose");
+                    battleState = PerformAction.LOSE;
+                    //Lose the battle
+                }
+                else
+                {
+                    if (enemiesInBattle.Count < 1)
+                    {
+                        Debug.Log("Cambio a Win");
+                        battleState = PerformAction.WIN;
+                        //Win the battle
+                    }
+                    else
+                    {
+                        Debug.Log("Sigo la partida");
+                        ClearAttackPanel();
+                        heroInput = HeroGUI.ACTIVATE;
+                    }
+                }
+                break;
+
+            case PerformAction.LOSE:
+                Debug.Log("Lose");
+                break;
+
+            case PerformAction.WIN:
+                Debug.Log("Win");
+                for (int i = 0; i<heroesInBattle.Count; i++)
+                {
+                    heroesInBattle[i].GetComponent<PlayerStateMachine>().actualState = PlayerStateMachine.TurnState.WAITING;
+                }
+                break;
         }
 
         switch (heroInput)
@@ -173,6 +213,12 @@ public class BattleStateMachine : MonoBehaviour
     /// </summary>
     public void EnemyButtons()
     {
+        foreach (GameObject button in enemiesButtons)
+        {
+            Destroy(button);
+        }
+        enemiesButtons.Clear();
+
         foreach(GameObject enemy in enemiesInBattle)
         {
             GameObject newButton = Instantiate(enemyButton) as GameObject;
@@ -185,7 +231,15 @@ public class BattleStateMachine : MonoBehaviour
             button.enemyPrefab = enemy;
 
             newButton.transform.SetParent(enemySpacer);
+
+            enemiesButtons.Add(newButton);
         }
+    }
+
+    private void ClearAttackPanel()
+    {
+        activePanel.SetActive(false);
+        DestroyButtons();
     }
 
     /// <summary>
@@ -214,12 +268,13 @@ public class BattleStateMachine : MonoBehaviour
         heroInput = HeroGUI.DONE;
     }
 
-
+    /// <summary>
+    /// Steps after the character finishes selecting an action
+    /// </summary>
     void HeroInputDone()
     {
         actionsInTurn.Add(heroChoice);
-        activePanel.SetActive(false);
-        DestroyButtons();
+        ClearAttackPanel();
         heroesToManage[0].transform.Find("Selector").gameObject.SetActive(false);
         heroesToManage.RemoveAt(0);
         heroInput = HeroGUI.ACTIVATE;
@@ -230,6 +285,9 @@ public class BattleStateMachine : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Creates all buttons every turn
+    /// </summary>
     private void CreateButtons()
     {
         GameObject attackButton = Instantiate(actionButton) as GameObject;
@@ -326,6 +384,10 @@ public class BattleStateMachine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Change the active panel to a selected one
+    /// </summary>
+    /// <param name="panelToActivate">Panel to activate</param>
     private void ChangePanels(GameObject panelToActivate)
     {
         activePanel.SetActive(false);
@@ -377,6 +439,9 @@ public class BattleStateMachine : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Destroys all buttons
+    /// </summary>
     public void DestroyButtons()
     {
         foreach (GameObject actualButton in atkButtons)
