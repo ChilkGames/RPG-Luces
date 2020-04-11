@@ -815,12 +815,12 @@ MonoBehaviour:
     actualHealth: 10
     maxMana: 5
     actualMana: 5
-    maxAttack: 0
-    actualAttack: 0
+    maxAttack: 5000
+    actualAttack: 5000
     maxDefense: 0
     actualDefense: 0
-    maxMagic: 0
-    actualMagic: 0
+    maxMagic: 5000
+    actualMagic: 5000
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
@@ -1186,6 +1186,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 2012321384}
     m_Modifications:
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_Name
+      value: Selector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4533108968413444698, guid: 5e857af8bc693bb4dac1158fa743915e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1240,16 +1250,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_Name
-      value: Selector
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e857af8bc693bb4dac1158fa743915e, type: 3}
@@ -1260,6 +1260,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1614224848}
     m_Modifications:
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_Name
+      value: Selector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4533108968413444698, guid: 5e857af8bc693bb4dac1158fa743915e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1314,16 +1324,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_Name
-      value: Selector
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e857af8bc693bb4dac1158fa743915e, type: 3}
@@ -1756,12 +1756,12 @@ MonoBehaviour:
     actualHealth: 10
     maxMana: 50
     actualMana: 50
-    maxAttack: 0
-    actualAttack: 0
+    maxAttack: 5000
+    actualAttack: 5000
     maxDefense: 0
     actualDefense: 0
-    maxMagic: 0
-    actualMagic: 0
+    maxMagic: 5000
+    actualMagic: 5000
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
@@ -1781,6 +1781,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 795772053}
     m_Modifications:
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_Name
+      value: Selector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4533108968413444698, guid: 5e857af8bc693bb4dac1158fa743915e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1835,16 +1845,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_Name
-      value: Selector
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e857af8bc693bb4dac1158fa743915e, type: 3}
@@ -1975,8 +1975,8 @@ MonoBehaviour:
   stats:
     myName: Behemot
     level: 1
-    maxHealth: 0
-    actualHealth: 0
+    maxHealth: 10
+    actualHealth: 10
     maxMana: 0
     actualMana: 0
     maxAttack: 1
@@ -1993,7 +1993,7 @@ MonoBehaviour:
     - {fileID: 3198877311887360746, guid: 8ec91cde5cc782c48be566fbcada20c2, type: 3}
     magicAttacks: []
     actualColor: 0
-    actualJob: 0
+    actualJob: 4
 --- !u!1 &1723332749
 GameObject:
   m_ObjectHideFlags: 0
@@ -2295,12 +2295,12 @@ MonoBehaviour:
     actualHealth: 10
     maxMana: 5
     actualMana: 5
-    maxAttack: 0
-    actualAttack: 0
+    maxAttack: 5000
+    actualAttack: 5000
     maxDefense: 0
     actualDefense: 0
-    maxMagic: 0
-    actualMagic: 0
+    maxMagic: 5000
+    actualMagic: 5000
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
@@ -2318,6 +2318,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1839635856}
     m_Modifications:
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_Name
+      value: Selector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4533108968413444698, guid: 5e857af8bc693bb4dac1158fa743915e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2372,16 +2382,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_Name
-      value: Selector
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e857af8bc693bb4dac1158fa743915e, type: 3}
@@ -2520,12 +2520,12 @@ MonoBehaviour:
     actualHealth: 10
     maxMana: 0
     actualMana: 0
-    maxAttack: 0
-    actualAttack: 0
+    maxAttack: 5000
+    actualAttack: 5000
     maxDefense: 0
     actualDefense: 0
-    maxMagic: 0
-    actualMagic: 0
+    maxMagic: 5000
+    actualMagic: 5000
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
@@ -2550,6 +2550,16 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1449931073}
     m_Modifications:
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_Name
+      value: Selector
+      objectReference: {fileID: 0}
+    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 4533108968413444698, guid: 5e857af8bc693bb4dac1158fa743915e,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -2604,16 +2614,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_Name
-      value: Selector
-      objectReference: {fileID: 0}
-    - target: {fileID: 4821678816798059263, guid: 5e857af8bc693bb4dac1158fa743915e,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5e857af8bc693bb4dac1158fa743915e, type: 3}

@@ -34,6 +34,8 @@ public class EnemyStateMachine : MonoBehaviour
 
     private float timer;
 
+    private bool isAlive = true;
+
     [Range(0.0f, 10.0f)]
     public float animSpeed;
 
@@ -78,7 +80,14 @@ public class EnemyStateMachine : MonoBehaviour
                 break;
 
             case TurnState.DEAD:
-
+                if (!isAlive)
+                {
+                    return;
+                }
+                else
+                {
+                    Die();
+                }
                 break;
         }
     }
@@ -193,6 +202,54 @@ public class EnemyStateMachine : MonoBehaviour
     private float CalculateDamage()
     {
         return (enemy.stats.actualAttack + BSM.actionsInTurn[0].attack.baseDamage);
+    }
+
+    public void TakeDamage(float amount)
+    {
+        enemy.stats.actualHealth -= amount;
+        if (enemy.stats.actualHealth<=0)
+        {
+            enemy.stats.actualHealth = 0;
+            actualState = TurnState.DEAD;
+        }
+    }
+
+    public void Die()
+    {
+        gameObject.tag = "DeadEnemy";
+        BSM.enemiesInBattle.Remove(gameObject);
+        selector.SetActive(false);
+
+        if (BSM.enemiesInBattle.Count<0)
+        {
+            for (int i = 0; i < BSM.actionsInTurn.Count; i++)
+            {
+                if (BSM.actionsInTurn[i].attackerGameObject == this)
+                {
+                    BSM.actionsInTurn.Remove(BSM.actionsInTurn[i]);
+                }
+
+                foreach (GameObject target in BSM.actionsInTurn[i].targets)
+                {
+                    if (target == gameObject)
+                    {
+                        BSM.actionsInTurn[i].targets.Remove(gameObject);
+                        if (BSM.actionsInTurn[i].targets.Count <= 0)
+                        {
+                            BSM.actionsInTurn[i].targets = new List<GameObject>
+                        {
+                            BSM.enemiesInBattle[Random.Range(0,BSM.enemiesInBattle.Count)]
+                        };
+                        }
+                    }
+                }
+            }
+        }
+        
+        gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
+        isAlive = false;
+        BSM.EnemyButtons();
+        BSM.battleState = BattleStateMachine.PerformAction.CHECK_ALIVE;
     }
 
     public BaseAttack IA()

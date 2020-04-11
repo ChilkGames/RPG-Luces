@@ -42,6 +42,8 @@ public class PlayerStateMachine : MonoBehaviour
     public GameObject heroPanel;
     private Transform heroPanelSpacer;
 
+    private const float damageDivisor = 100;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -85,23 +87,7 @@ public class PlayerStateMachine : MonoBehaviour
                 }
                 else
                 {
-                    gameObject.tag = "DeadHero";
-                    BSM.DestroyButtons();
-                    BSM.heroesInBattle.Remove(gameObject);
-                    BSM.heroesToManage.Remove(gameObject);
-                    selector.SetActive(false);
-                    BSM.actionsPanel.SetActive(false);
-                    BSM.enemySelectPanel.SetActive(false);
-                    for (int i = 0; i<BSM.actionsInTurn.Count; i++)
-                    {
-                        if (BSM.actionsInTurn[i].attackerGameObject == this)
-                        {
-                            BSM.actionsInTurn.Remove(BSM.actionsInTurn[i]);
-                        }
-                    }
-                    gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
-                    BSM.heroInput = BattleStateMachine.HeroGUI.ACTIVATE;
-                    isAlive = false;
+                    Die();
                 }
                 break;
         }
@@ -155,6 +141,7 @@ public class PlayerStateMachine : MonoBehaviour
         yield return new WaitForSeconds(1);
 
         //do damage
+        DoDamage();
 
         Vector3 initialPosition = startPosition;
 
@@ -162,10 +149,20 @@ public class PlayerStateMachine : MonoBehaviour
 
         BSM.actionsInTurn.RemoveAt(0);
 
-        BSM.battleState = BattleStateMachine.PerformAction.WAIT;
+        if (BSM.battleState != BattleStateMachine.PerformAction.WIN && BSM.battleState != BattleStateMachine.PerformAction.LOSE)
+        {
+            BSM.battleState = BattleStateMachine.PerformAction.WAIT;
+            actualState = TurnState.PROCESSING;
+        }
+        else
+        {
+            actualState = TurnState.WAITING;
+        }
+
+        
 
         actionStarted = false;
-        actualState = TurnState.PROCESSING;
+
     }
 
     /// <summary>
@@ -198,6 +195,10 @@ public class PlayerStateMachine : MonoBehaviour
         return center != (transform.position = Vector3.MoveTowards(transform.position, center, animSpeed * Time.deltaTime));
     }
 
+    /// <summary>
+    /// The character receives an ammount of damage
+    /// </summary>
+    /// <param name="damageAmmount">Ammount of damage received</param>
     public void TakeDamage(float damageAmmount)
     {
         hero.stats.actualHealth -= damageAmmount;        
@@ -207,6 +208,27 @@ public class PlayerStateMachine : MonoBehaviour
             actualState = TurnState.DEAD;
         }
         UpdateHeroPanel();
+    }
+
+
+    public void DoDamage()
+    {
+        float damage;
+        if (BSM.actionsInTurn[0].attack.isMeleeAttack)
+        {
+            damage = (BSM.actionsInTurn[0].attack.baseDamage / damageDivisor /*+ weaponDamage*/) * hero.stats.actualAttack;
+            Debug.Log("melee attack damage = " + damage);
+        }
+        else
+        {
+            damage = (BSM.actionsInTurn[0].attack.baseDamage / damageDivisor /*+ weaponDamage*/) * hero.stats.actualMagic;
+            Debug.Log("magic attack damage = " + damage);
+        }
+        
+        foreach (GameObject actualEnemy in enemiesToAttack)
+        {
+            actualEnemy.GetComponent<EnemyStateMachine>().TakeDamage(damage);
+        }
     }
 
     private void CreateHeroPanel()
@@ -224,5 +246,45 @@ public class PlayerStateMachine : MonoBehaviour
     {
         heroPanelStats.heroHp.text = "HP: " + hero.stats.actualHealth + "/" + hero.stats.maxHealth;
         heroPanelStats.heroMp.text = "MP: " + hero.stats.actualMana + "/" + hero.stats.maxMana; 
+    }
+
+    private void Die()
+    {
+        gameObject.tag = "DeadHero";
+        BSM.DestroyButtons();
+        BSM.heroesInBattle.Remove(gameObject);
+        BSM.heroesToManage.Remove(gameObject);
+        selector.SetActive(false);
+        BSM.actionsPanel.SetActive(false);
+        BSM.enemySelectPanel.SetActive(false);
+
+        if (BSM.heroesInBattle.Count>0)
+        {
+            for (int i = 0; i < BSM.actionsInTurn.Count; i++)
+            {
+                if (BSM.actionsInTurn[i].attackerGameObject == this)
+                {
+                    BSM.actionsInTurn.Remove(BSM.actionsInTurn[i]);
+                }
+
+                foreach (GameObject target in BSM.actionsInTurn[i].targets)
+                {
+                    if (target == gameObject)
+                    {
+                        BSM.actionsInTurn[i].targets.Remove(gameObject);
+                        if (BSM.actionsInTurn[i].targets.Count <= 0)
+                        {
+                            BSM.actionsInTurn[i].targets = new List<GameObject>
+                        {
+                            BSM.heroesInBattle[Random.Range(0,BSM.heroesInBattle.Count)]
+                        };
+                        }
+                    }
+                }
+            }
+        }
+        gameObject.GetComponent<MeshRenderer>().material.color = Color.black;
+        isAlive = false;
+        BSM.battleState = BattleStateMachine.PerformAction.CHECK_ALIVE;
     }
 }
