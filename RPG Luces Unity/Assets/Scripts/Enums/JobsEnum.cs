@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class JobsEnum
+public static class JobsEnum
 {
 
     public enum Jobs
