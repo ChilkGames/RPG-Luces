@@ -4,7 +4,7 @@ using UnityEngine;
 
 
 [System.Serializable]
-public class ColorsEnum
+public static class ColorsEnum
 {
     public enum Colors
     {

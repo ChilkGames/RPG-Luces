@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class BaseAttack : MonoBehaviour
+public class BaseAttack : ScriptableObject
 {
     public string attackName;
 

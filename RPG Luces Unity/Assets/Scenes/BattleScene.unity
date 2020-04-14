@@ -813,8 +813,8 @@ MonoBehaviour:
     level: 0
     maxHealth: 10
     actualHealth: 10
-    maxMana: 5
-    actualMana: 5
+    maxMana: 900
+    actualMana: 900
     maxAttack: 5000
     actualAttack: 5000
     maxDefense: 0
@@ -824,10 +824,9 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks:
-    - {fileID: 3198877311887360746, guid: 8ec91cde5cc782c48be566fbcada20c2, type: 3}
+    meleeAttacks: []
     magicAttacks:
-    - {fileID: 3261930413327139039, guid: b345318845028e74db3d5c25e8a38085, type: 3}
+    - {fileID: 0}
     actualColor: 0
     actualJob: 0
   orderOfAttack: 0
@@ -1159,6 +1158,7 @@ MonoBehaviour:
   magicSpacer: {fileID: 768566612}
   actionSpacer: {fileID: 436816896}
   atkButtons: []
+  enemiesButtons: []
 --- !u!4 &1070384283
 Transform:
   m_ObjectHideFlags: 0
@@ -1754,8 +1754,8 @@ MonoBehaviour:
     level: 0
     maxHealth: 30
     actualHealth: 10
-    maxMana: 50
-    actualMana: 50
+    maxMana: 900
+    actualMana: 900
     maxAttack: 5000
     actualAttack: 5000
     maxDefense: 0
@@ -1765,12 +1765,9 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks:
-    - {fileID: 3452089715906367411, guid: cfd7697d27e6c174da295d208ee55382, type: 3}
+    meleeAttacks: []
     magicAttacks:
-    - {fileID: 7996981041323991179, guid: 369e894f37bf0de4884e5c4cf7c57696, type: 3}
-    - {fileID: 3921738922047334763, guid: 55c285425dcc0ed439bd57f3f5d83bf8, type: 3}
-    - {fileID: 2815931083574973925, guid: b82ca08e1c8a31b41beed5e1010f4077, type: 3}
+    - {fileID: 0}
     actualColor: 0
     actualJob: 2
   orderOfAttack: 0
@@ -1988,10 +1985,9 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks:
-    - {fileID: 3452089715906367411, guid: cfd7697d27e6c174da295d208ee55382, type: 3}
-    - {fileID: 3198877311887360746, guid: 8ec91cde5cc782c48be566fbcada20c2, type: 3}
-    magicAttacks: []
+    meleeAttacks: []
+    magicAttacks:
+    - {fileID: 0}
     actualColor: 0
     actualJob: 4
 --- !u!1 &1723332749
@@ -2293,8 +2289,8 @@ MonoBehaviour:
     level: 0
     maxHealth: 10
     actualHealth: 10
-    maxMana: 5
-    actualMana: 5
+    maxMana: 900
+    actualMana: 900
     maxAttack: 5000
     actualAttack: 5000
     maxDefense: 0
@@ -2304,10 +2300,9 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks:
-    - {fileID: 3452089715906367411, guid: cfd7697d27e6c174da295d208ee55382, type: 3}
+    meleeAttacks: []
     magicAttacks:
-    - {fileID: 2815931083574973925, guid: b82ca08e1c8a31b41beed5e1010f4077, type: 3}
+    - {fileID: 0}
     actualColor: 0
     actualJob: 0
   orderOfAttack: 0
@@ -2518,8 +2513,8 @@ MonoBehaviour:
     level: 0
     maxHealth: 10
     actualHealth: 10
-    maxMana: 0
-    actualMana: 0
+    maxMana: 900
+    actualMana: 900
     maxAttack: 5000
     actualAttack: 5000
     maxDefense: 0
@@ -2529,11 +2524,9 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks:
-    - {fileID: 3198877311887360746, guid: 8ec91cde5cc782c48be566fbcada20c2, type: 3}
+    meleeAttacks: []
     magicAttacks:
-    - {fileID: 6480860100225417113, guid: a9ed2832250330949b30e00f29023a49, type: 3}
-    - {fileID: 5594791352397311891, guid: 3730ac5cb0a3d5249852dafccb094ac1, type: 3}
+    - {fileID: 0}
     actualColor: 0
     actualJob: 0
   orderOfAttack: 0
