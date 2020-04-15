@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d6f7c3448663854b9f0424da1cb7013, type: 3}
+  m_Name: Fire
+  m_EditorClassIdentifier: 
+  attackName: Fire
+  attackDescription: Attacks to a single enemy
+  baseDamage: 3
+  manaCost: 5
+  isAreaAttack: 0
+  levelRequirement: 1
+  jobsRequirement: 5
+  isMeleeAttack: 0
+  isBuff: 0
