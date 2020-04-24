@@ -34,7 +34,7 @@ public class BaseAttack : ScriptableObject
     /// <summary>
     /// List of colors used
     /// </summary>
-    public Dictionary<string, ColorsEnum.Colors> listOfColors = new Dictionary<string, ColorsEnum.Colors>();
+    public List<ColorsEnum.Colors> listOfColors = new List<ColorsEnum.Colors>();
 
     /// <summary>
     /// If true, the attack is melee attack. If not, it´s magic attack.
@@ -46,15 +46,17 @@ public class BaseAttack : ScriptableObject
     /// </summary>
     public bool isBuff;
 
+    public bool isCombination;
+
     /// <summary>
     /// Percentage of the color´s damage.
     /// </summary>
-    public Dictionary<string, float> percentageOfColor = new Dictionary<string, float>();
+    public List<float> percentageOfColor = new List<float>();
 
-    protected void AddColor(string name, ColorsEnum.Colors colors, float percentage)
+    public void AddColor(ColorsEnum.Colors colors, float percentage)
     {
-        listOfColors.Add(name, colors);
-        percentageOfColor.Add(name, percentage);
+        listOfColors.Add(colors);
+        percentageOfColor.Add(percentage);
     }
 }
 

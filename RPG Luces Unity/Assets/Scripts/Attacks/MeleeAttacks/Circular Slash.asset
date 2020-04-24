@@ -17,7 +17,10 @@ MonoBehaviour:
   baseDamage: 3
   manaCost: 0
   isAreaAttack: 1
-  levelRequirement: 0
+  levelRequirement: 1
   jobsRequirement: 5
+  listOfColors: 
   isMeleeAttack: 1
   isBuff: 0
+  isCombination: 0
+  percentageOfColor: []

@@ -126,6 +126,49 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1241550277}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &212088101
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 212088103}
+  - component: {fileID: 212088102}
+  m_Layer: 0
+  m_Name: AttackTester
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &212088102
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212088101}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 582965a189c15034fb7bde7036682f55, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &212088103
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 212088101}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 4.969392, y: -12.699702, z: 22.353682}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &213878903
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,7 +754,7 @@ GameObject:
   - component: {fileID: 795772054}
   - component: {fileID: 795772049}
   m_Layer: 0
-  m_Name: Player2
+  m_Name: Rogue
   m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -841,11 +884,14 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks: []
+    meleeAttacks:
+    - {fileID: 11400000, guid: 1109d09e023157f4cb6680efb5ff9053, type: 2}
+    - {fileID: 11400000, guid: 61bbbf07b330bba43986383a90e6f227, type: 2}
     magicAttacks:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: ccd59454848c4fe429a70f8feb7194cd, type: 2}
     actualColor: 0
     actualJob: 0
+    experience: 0
   orderOfAttack: 0
 --- !u!1 &849334433
 GameObject:
@@ -1672,7 +1718,7 @@ GameObject:
   - component: {fileID: 1449931074}
   - component: {fileID: 1449931069}
   m_Layer: 0
-  m_Name: Player1
+  m_Name: Mage
   m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1767,7 +1813,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1449931068}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -4.99, y: 0, z: -6.5}
+  m_LocalPosition: {x: -3.430042, y: 0, z: -6.509195}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4533108968413444698}
@@ -1788,25 +1834,30 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stats:
     myName: Mage
-    level: 0
+    level: 6
     maxHealth: 30
-    actualHealth: 10
-    maxMana: 900
-    actualMana: 900
-    maxAttack: 5000
-    actualAttack: 5000
-    maxDefense: 0
-    actualDefense: 0
-    maxMagic: 5000
-    actualMagic: 5000
-    maxSpeed: 0
-    actualSpeed: 0
+    actualHealth: 30
+    maxMana: 100
+    actualMana: 100
+    maxAttack: 30
+    actualAttack: 30
+    maxDefense: 4
+    actualDefense: 4
+    maxMagic: 90
+    actualMagic: 90
+    maxSpeed: 10
+    actualSpeed: 10
     isStrategist: 0
-    meleeAttacks: []
+    meleeAttacks:
+    - {fileID: 11400000, guid: 61bbbf07b330bba43986383a90e6f227, type: 2}
+    - {fileID: 11400000, guid: 1109d09e023157f4cb6680efb5ff9053, type: 2}
     magicAttacks:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: ccd59454848c4fe429a70f8feb7194cd, type: 2}
+    - {fileID: 11400000, guid: eda54a9cfbd05d240a552d822453629c, type: 2}
+    - {fileID: 11400000, guid: 7e2be7e117f333f4caa5d8637c3aec7b, type: 2}
     actualColor: 0
     actualJob: 2
+    experience: 0
   orderOfAttack: 0
 --- !u!1001 &1611372268
 PrefabInstance:
@@ -1897,7 +1948,7 @@ GameObject:
   - component: {fileID: 1614224849}
   - component: {fileID: 1614224844}
   m_Layer: 0
-  m_Name: Red Cube
+  m_Name: Behemot
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1988,7 +2039,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1614224843}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 5.2, y: 0, z: -6.5}
+  m_LocalPosition: {x: 8.2, y: 0, z: -6.5390034}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1161047721}
@@ -2010,8 +2061,8 @@ MonoBehaviour:
   stats:
     myName: Behemot
     level: 1
-    maxHealth: 10
-    actualHealth: 10
+    maxHealth: 600
+    actualHealth: 600
     maxMana: 0
     actualMana: 0
     maxAttack: 1
@@ -2024,11 +2075,19 @@ MonoBehaviour:
     actualSpeed: 0
     isStrategist: 0
     meleeAttacks:
-    - {fileID: 11400000, guid: a14a469047680b94fb531f1ce7e776a0, type: 2}
+    - {fileID: 11400000, guid: 1109d09e023157f4cb6680efb5ff9053, type: 2}
+    - {fileID: 11400000, guid: 61bbbf07b330bba43986383a90e6f227, type: 2}
     magicAttacks:
     - {fileID: 11400000, guid: 4b62358266215b949a5bbac76b6eebdd, type: 2}
     actualColor: 0
     actualJob: 4
+    experience: 0
+  experienceToDrop: 0
+  goldToDrop: 0
+  itemsToDrop:
+  - {fileID: 11400000, guid: 3f5b3b4d1cf426b469c70944e893aaa1, type: 2}
+  - {fileID: 11400000, guid: a74f6fd97d972354cb60008b8e3abdc2, type: 2}
+  percentageOfDrop: 3200000064000000
 --- !u!1 &1723332749
 GameObject:
   m_ObjectHideFlags: 0
@@ -2210,7 +2269,7 @@ GameObject:
   - component: {fileID: 1839635857}
   - component: {fileID: 1839635852}
   m_Layer: 0
-  m_Name: Player3
+  m_Name: Tank
   m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2340,11 +2399,13 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks: []
+    meleeAttacks:
+    - {fileID: 11400000, guid: 1109d09e023157f4cb6680efb5ff9053, type: 2}
     magicAttacks:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: 3a508bf0a86347f4d8d7be388917dc30, type: 2}
     actualColor: 0
     actualJob: 0
+    experience: 0
   orderOfAttack: 0
 --- !u!1001 &1874557281
 PrefabInstance:
@@ -2435,7 +2496,7 @@ GameObject:
   - component: {fileID: 2012321385}
   - component: {fileID: 2012321380}
   m_Layer: 0
-  m_Name: Player4
+  m_Name: Monk
   m_TagString: Hero
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2565,11 +2626,13 @@ MonoBehaviour:
     maxSpeed: 0
     actualSpeed: 0
     isStrategist: 0
-    meleeAttacks: []
+    meleeAttacks:
+    - {fileID: 11400000, guid: 1109d09e023157f4cb6680efb5ff9053, type: 2}
     magicAttacks:
-    - {fileID: 0}
+    - {fileID: 11400000, guid: 4b62358266215b949a5bbac76b6eebdd, type: 2}
     actualColor: 0
     actualJob: 0
+    experience: 0
   orderOfAttack: 0
 --- !u!4 &4533108968413444698 stripped
 Transform:
