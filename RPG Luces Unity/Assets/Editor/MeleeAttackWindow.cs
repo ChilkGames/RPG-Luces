@@ -18,11 +18,9 @@ public class MeleeAttackWindow : EditorWindow
     private JobsEnum.Jobs jobRequirement;
     private int levelRequirement;
 
-    private string colorTag;
-    private ColorsEnum.Colors actualColor;
-    private int actualColorPercentaje;
-    private Dictionary<string, ColorsEnum.Colors> listOfColors;
-    private Dictionary<string, int> colorPercentaje;
+    private List<int> colorIndex = new List<int>();
+    private List<ColorsEnum.Colors> colorList = new List<ColorsEnum.Colors>();
+    private List<float> percentajeList = new List<float>();
 
     private Vector2 scrollPosition;
 
@@ -61,22 +59,41 @@ public class MeleeAttackWindow : EditorWindow
         EditorGUILayout.Space();
         jobRequirement = (JobsEnum.Jobs)EditorGUILayout.EnumPopup("Job Requirement", jobRequirement);
         EditorGUILayout.Space();
+
+        EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Add Color"))
         {
-            colorTag = EditorGUILayout.TextField("Color Tag", colorTag);
-            actualColor = (ColorsEnum.Colors)EditorGUILayout.EnumPopup("Color", actualColor);
-            actualColorPercentaje = EditorGUILayout.IntField("Color Percentaje", actualColorPercentaje);
-            if (GUILayout.Button("Confirm"))
+            colorList.Add(ColorsEnum.Colors.BLUE);
+            percentajeList.Add(0);
+            colorIndex.Add(percentajeList.Count);
+        }
+        if (colorIndex.Count>0)
+        {
+            if (GUILayout.Button("Remove Color"))
             {
-                listOfColors.Add(colorTag, actualColor);
-                colorPercentaje.Add(colorTag, actualColorPercentaje);
+                colorList.RemoveAt(colorIndex.Count-1);
+                percentajeList.RemoveAt(colorIndex.Count - 1);
+                colorIndex.RemoveAt(colorIndex.Count - 1);
             }
+        }
+        EditorGUILayout.EndHorizontal();
+        foreach (int actualColor in colorIndex)
+        {
+            int index = colorIndex.IndexOf(actualColor);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("color" + actualColor + ":");
+            colorList[index] = (ColorsEnum.Colors)EditorGUILayout.EnumPopup(colorList[index]);
+            percentajeList[index] = EditorGUILayout.FloatField(percentajeList[index]);
+            EditorGUILayout.EndHorizontal();
         }
         EditorGUILayout.Space();
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Create"))
         {
-            CreateAttack();
+            if (attackName == null)
+                ShowError("Attack must have a name");
+            else
+                CreateAttack();
         }
         if (GUILayout.Button("Return"))
         {
@@ -103,6 +120,12 @@ public class MeleeAttackWindow : EditorWindow
         scriptableAttack.isBuff = false;
         scriptableAttack.levelRequirement = levelRequirement;
         scriptableAttack.jobsRequirement = jobRequirement;
+        scriptableAttack.isCombination = false;
+        foreach (int actualColor in colorIndex)
+        {
+            int index = colorIndex.IndexOf(actualColor);
+            scriptableAttack.AddColor(colorList[index], percentajeList[index]);
+        }
         AssetDatabase.CreateAsset(scriptableAttack, path);
         EditorUtility.SetDirty(scriptableAttack);
         Save();
@@ -112,5 +135,10 @@ public class MeleeAttackWindow : EditorWindow
     {
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+    }
+
+    private void ShowError(string error)
+    {
+        ShowNotification(new GUIContent(error));
     }
 }

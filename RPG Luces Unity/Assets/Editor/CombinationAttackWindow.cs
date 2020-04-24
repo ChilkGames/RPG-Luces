@@ -14,12 +14,11 @@ public class CombinationAttackWindow : EditorWindow
     private bool isAreaAttack;
     private bool isBuff;
 
-    private JobsEnum.Jobs jobRequirement;
-    private int levelRequirement;
-
-    private List<string> colorTagList = new List<string>();
+    private List<int> colorIndex = new List<int>();
     private List<ColorsEnum.Colors> colorList = new List<ColorsEnum.Colors>();
-    private List<int> percentajeList = new List<int>();
+    private List<float> percentajeList = new List<float>();
+
+    private List<int> attacksIndex = new List<int>();
     private List<BaseAttack> requiredAttacks = new List<BaseAttack>();
 
     private Vector2 scrollPosition;
@@ -27,6 +26,10 @@ public class CombinationAttackWindow : EditorWindow
     public static void OpenWindow()
     {
         var myWindow = GetWindow<CombinationAttackWindow>();
+        myWindow.attacksIndex.Add(0);
+        myWindow.attacksIndex.Add(1);
+        myWindow.requiredAttacks.Add(null);
+        myWindow.requiredAttacks.Add(null);
         myWindow.wantsMouseMove = true;
         myWindow.title = "Create Combination Attack";
         myWindow.Show();
@@ -58,24 +61,63 @@ public class CombinationAttackWindow : EditorWindow
         EditorGUILayout.Space();
         isAreaAttack = EditorGUILayout.Toggle("Is Area Attack?", isAreaAttack);
         EditorGUILayout.Space();
-        levelRequirement = EditorGUILayout.IntField("Level Requirement", levelRequirement);
-        if (levelRequirement < 0)
-        {
-            levelRequirement = 0;
-        }
-        EditorGUILayout.Space();
-        jobRequirement = (JobsEnum.Jobs)EditorGUILayout.EnumPopup("Job Requirement", jobRequirement);
-        EditorGUILayout.Space();
 
+        EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Add Color"))
         {
-            colorTagList.Add("color" + colorTagList.Count);
-            colorList.Add(ColorsEnum.Colors.BLACK);
+            colorList.Add(ColorsEnum.Colors.BLUE);
             percentajeList.Add(0);
+            colorIndex.Add(percentajeList.Count);
+        }
+        if (colorIndex.Count > 0)
+        {
+            if (GUILayout.Button("Remove Color"))
+            {
+                colorList.RemoveAt(colorIndex.Count - 1);
+                percentajeList.RemoveAt(colorIndex.Count - 1);
+                colorIndex.RemoveAt(colorIndex.Count - 1);
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+
+        foreach (int actualColor in colorIndex)
+        {
+            int index = colorIndex.IndexOf(actualColor);
             EditorGUILayout.BeginHorizontal();
-            colorTagList[colorTagList.Count - 1] = EditorGUILayout.TextField("color" + colorTagList.Count);
-            colorList[colorList.Count - 1] = (ColorsEnum.Colors)EditorGUILayout.EnumPopup(colorList[colorList.Count - 1]);
-            percentajeList[percentajeList.Count - 1] = EditorGUILayout.IntField(percentajeList[percentajeList.Count - 1]);
+            EditorGUILayout.LabelField("color" + actualColor + ":");
+            colorList[index] = (ColorsEnum.Colors)EditorGUILayout.EnumPopup(colorList[index]);
+            percentajeList[index] = EditorGUILayout.FloatField(percentajeList[index]);
+            EditorGUILayout.EndHorizontal();
+        }
+
+        EditorGUILayout.Space();
+
+        if (requiredAttacks.Count == 2)
+        {
+            if (GUILayout.Button("Add Attack"))
+            {
+                attacksIndex.Add(2);
+                requiredAttacks.Add(null);
+            }
+        }
+        else
+        {
+            if (requiredAttacks.Count == 3)
+            {
+                if (GUILayout.Button("Remove Attack"))
+                {
+                    attacksIndex.Remove(2);
+                    requiredAttacks.RemoveAt(2);
+                }
+            }
+        }
+
+        foreach (int actualAttack in attacksIndex)
+        {
+            int index = attacksIndex.IndexOf(actualAttack);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Attack" + actualAttack + ":");
+            requiredAttacks[index] = (BaseAttack)EditorGUILayout.ObjectField(requiredAttacks[index], typeof(BaseAttack), true); ;
             EditorGUILayout.EndHorizontal();
         }
 
@@ -83,7 +125,22 @@ public class CombinationAttackWindow : EditorWindow
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Create"))
         {
-            CreateAttack();
+            if (attackName == null)
+            {
+                ShowError("Attack must have a name");   
+            }
+            else
+            {
+                foreach (BaseAttack actualAttack in requiredAttacks)
+                {
+                    if (actualAttack == null)
+                    {
+                        ShowError("Must fill all required attack fields");
+                        OnGUI();
+                    }
+                }
+                CreateAttack();
+            }        
         }
         if (GUILayout.Button("Return"))
         {
@@ -99,7 +156,7 @@ public class CombinationAttackWindow : EditorWindow
     /// </summary>
     private void CreateAttack()
     {
-        var scriptableAttack = CreateInstance<BaseAttack>();
+        var scriptableAttack = CreateInstance<CombinationAttack>();
         var path = AssetDatabase.GenerateUniqueAssetPath("Assets/Scripts/Attacks/Combinations/" + attackName + ".asset");
         scriptableAttack.attackName = attackName;
         scriptableAttack.attackDescription = attackDescription;
@@ -108,8 +165,15 @@ public class CombinationAttackWindow : EditorWindow
         scriptableAttack.isMeleeAttack = false;
         scriptableAttack.isAreaAttack = isAreaAttack;
         scriptableAttack.isBuff = isBuff;
-        scriptableAttack.levelRequirement = levelRequirement;
-        scriptableAttack.jobsRequirement = jobRequirement;
+        scriptableAttack.levelRequirement = 1;
+        scriptableAttack.jobsRequirement = JobsEnum.Jobs.ALL;
+        scriptableAttack.isCombination = true;
+        foreach (int actualColor in colorIndex)
+        {
+            int index = colorIndex.IndexOf(actualColor);
+            scriptableAttack.AddColor(colorList[index], percentajeList[index]);
+        }
+        scriptableAttack.combinationOfAttacks = requiredAttacks;
         AssetDatabase.CreateAsset(scriptableAttack, path);
         EditorUtility.SetDirty(scriptableAttack);
         Save();
@@ -119,5 +183,10 @@ public class CombinationAttackWindow : EditorWindow
     {
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+    }
+
+    private void ShowError(string error)
+    {
+        ShowNotification(new GUIContent (error));
     }
 }

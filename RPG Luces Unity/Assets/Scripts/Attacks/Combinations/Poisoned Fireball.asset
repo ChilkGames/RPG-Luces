@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ff6df54ad3a53a47b86cdda543f4ef4, type: 3}
+  m_Name: Poisoned Fireball
+  m_EditorClassIdentifier: 
+  attackName: Poisoned Fireball
+  attackDescription: Attacks a single enemy with a poisoned fireball
+  baseDamage: 30
+  manaCost: 0
+  isAreaAttack: 1
+  levelRequirement: 1
+  jobsRequirement: 5
+  listOfColors: 0100000007000000
+  isMeleeAttack: 0
+  isBuff: 0
+  isCombination: 1
+  percentageOfColor:
+  - 30
+  - 40
+  combinationOfAttacks:
+  - {fileID: 11400000, guid: 58a6d9139453361428c8985c2bb4804f, type: 2}
+  - {fileID: 11400000, guid: eda54a9cfbd05d240a552d822453629c, type: 2}

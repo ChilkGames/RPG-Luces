@@ -5,9 +5,7 @@ using UnityEditor;
 
 public class AttackWindow : EditorWindow
 {
-    BaseAttack meleeAttack;
-    BaseAttack magicAttack;
-    BaseAttack combinationAttack;
+    private BaseAttack attack;
 
     [MenuItem("RPG Tools/Attack Creator")]
     public static void OpenWindow()
@@ -39,27 +37,43 @@ public class AttackWindow : EditorWindow
         if (GUILayout.Button("Create Combination Attack"))
         {
             CombinationAttackWindow.OpenWindow();
+            Close();
         }
         GUILayout.Space(22);
         EditorGUI.DrawRect(GUILayoutUtility.GetRect(100, 2), Color.black);
         GUILayout.Space(20);
         EditorGUILayout.LabelField("Edition area", CustomStyles.subtitles);
         GUILayout.Space(10);
-        if (GUILayout.Button("Edit Melee Attack"))
+        attack = (BaseAttack)EditorGUILayout.ObjectField("Attack", attack, typeof(BaseAttack), false);
+        if (attack!=null)
         {
-            LoadMeleeWindow.OpenWindow();
-        }
-        GUILayout.Space(10);
-        if (GUILayout.Button("Edit Magic Attack"))
-        {
-            meleeAttack = (BaseAttack)EditorGUILayout.ObjectField("Attack", meleeAttack, typeof(BaseAttack), false);
-            Debug.Log("Cargo magia");
-        }
-        GUILayout.Space(10);
-        if (GUILayout.Button("Edit Combination Attack"))
-        {
-            meleeAttack = (BaseAttack)EditorGUILayout.ObjectField("Attack", meleeAttack, typeof(BaseAttack), false);
-            Debug.Log("Cargo combinacion");
+            if (attack.isCombination)
+            {
+                if (GUILayout.Button("Edit Combination Attack"))
+                {
+                    LoadCombinationAttack.OpenWindow((CombinationAttack)attack);
+                    Close();
+                }
+            }
+            else
+            {
+                if (attack.isMeleeAttack)
+                {
+                    if (GUILayout.Button("Edit Melee Attack"))
+                    {
+                        LoadMeleeWindow.OpenWindow(attack);
+                        Close();
+                    }
+                }
+                else
+                {
+                    if (GUILayout.Button("Edit Magic Attack"))
+                    {
+                        LoadMagicWindow.OpenWindow(attack);
+                        Close();
+                    }
+                }
+            }
         }
     }
 }
