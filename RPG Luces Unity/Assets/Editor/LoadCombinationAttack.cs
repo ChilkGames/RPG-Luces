@@ -13,13 +13,15 @@ public class LoadCombinationAttack : EditorWindow
 
     private Vector2 scrollPosition;
 
+    private bool isMultipleAttack;
+
     public static void OpenWindow(CombinationAttack attack)
     {
         var myWindow = GetWindow<LoadCombinationAttack>();
         myWindow.wantsMouseMove = true;
         myWindow.title = "Edit Melee Attack";
         myWindow.baseAttack = attack;
-        for (int i = 0; i < attack.percentageOfColor.Count; i++)
+        for (int i = 0; i < attack.listOfColors.Count; i++)
         {
             myWindow.colorIndex.Add(i);
         }
@@ -27,6 +29,10 @@ public class LoadCombinationAttack : EditorWindow
         {
             myWindow.attacksIndex.Add(i);
         }
+        if (myWindow.baseAttack.attackQty < 2)
+            myWindow.isMultipleAttack = false;
+        else
+            myWindow.isMultipleAttack = true;
         myWindow.Show();
     }
 
@@ -40,20 +46,31 @@ public class LoadCombinationAttack : EditorWindow
         EditorGUILayout.Space();
         baseAttack.attackDescription = EditorGUILayout.TextField("Attack Description", baseAttack.attackDescription);
         EditorGUILayout.Space();
-        baseAttack.baseDamage = EditorGUILayout.FloatField("Base Damage", baseAttack.baseDamage);
-        if (baseAttack.baseDamage < 0)
-        {
-            baseAttack.baseDamage = 0;
-        }
-        EditorGUILayout.Space();
-        baseAttack.manaCost = EditorGUILayout.FloatField("Mana Cost", baseAttack.manaCost);
-        if (baseAttack.manaCost < 0)
-        {
-            baseAttack.manaCost = 0;
-        }
-        EditorGUILayout.Space();
+
         baseAttack.isBuff = EditorGUILayout.Toggle("Is Buff?", baseAttack.isBuff);
         EditorGUILayout.Space();
+        if (!baseAttack.isBuff)
+        {
+            baseAttack.baseDamage = EditorGUILayout.FloatField("Base Damage", baseAttack.baseDamage);
+            if (baseAttack.baseDamage < 0)
+            {
+                baseAttack.baseDamage = 0;
+            }
+        EditorGUILayout.Space();
+        }
+
+        isMultipleAttack = EditorGUILayout.Toggle("Is Multiple Attack?", isMultipleAttack);
+        if (isMultipleAttack)
+        {
+            EditorGUILayout.Space();
+            baseAttack.attackQty = EditorGUILayout.IntField("Attacks Quantity", baseAttack.attackQty);
+            if (baseAttack.attackQty < 2)
+                baseAttack.attackQty = 2;
+        }
+        else
+            baseAttack.attackQty = 1;
+        EditorGUILayout.Space();
+
         baseAttack.isAreaAttack = EditorGUILayout.Toggle("Is Area Attack?", baseAttack.isAreaAttack);
         EditorGUILayout.Space();
 
@@ -61,15 +78,13 @@ public class LoadCombinationAttack : EditorWindow
         if (GUILayout.Button("Add Color"))
         {
             baseAttack.listOfColors.Add(ColorsEnum.Colors.BLUE);
-            baseAttack.percentageOfColor.Add(0);
-            colorIndex.Add(baseAttack.percentageOfColor.Count);
+            colorIndex.Add(baseAttack.listOfColors.Count);
         }
         if (colorIndex.Count > 0)
         {
             if (GUILayout.Button("Remove Color"))
             {
                 baseAttack.listOfColors.RemoveAt(colorIndex.Count - 1);
-                baseAttack.percentageOfColor.RemoveAt(colorIndex.Count - 1);
                 colorIndex.RemoveAt(colorIndex.Count - 1);
             }
         }
@@ -81,7 +96,6 @@ public class LoadCombinationAttack : EditorWindow
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("color" + actualColor + ":");
             baseAttack.listOfColors[index] = (ColorsEnum.Colors)EditorGUILayout.EnumPopup(baseAttack.listOfColors[index]);
-            baseAttack.percentageOfColor[index] = EditorGUILayout.FloatField(baseAttack.percentageOfColor[index]);
             EditorGUILayout.EndHorizontal();
         }
 
@@ -143,6 +157,7 @@ public class LoadCombinationAttack : EditorWindow
     {
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        Close();
     }
 
     private void ShowError(string error)

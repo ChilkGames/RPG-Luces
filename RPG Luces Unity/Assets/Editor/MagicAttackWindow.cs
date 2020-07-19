@@ -14,12 +14,17 @@ public class MagicAttackWindow : EditorWindow
     private bool isAreaAttack;
     private bool isBuff;
 
+    private bool isMultipleAttack;
+    private int attackQty;
+
     private JobsEnum.Jobs jobRequirement;
     private int levelRequirement;
 
     private List<int> colorIndex = new List<int>();
     private List<ColorsEnum.Colors> colorList = new List<ColorsEnum.Colors>();
-    private List<float> percentajeList = new List<float>();
+
+    private List<int> tagIndex = new List<int>();
+    private List<AttackTagsEnum.Tags> tagList = new List<AttackTagsEnum.Tags>();
 
     private Vector2 scrollPosition;
 
@@ -60,8 +65,22 @@ public class MagicAttackWindow : EditorWindow
             manaCost = 0;
         }
         EditorGUILayout.Space();
+
         isAreaAttack = EditorGUILayout.Toggle("Is Area Attack?", isAreaAttack);
         EditorGUILayout.Space();
+
+        isMultipleAttack = EditorGUILayout.Toggle("Is Multiple Attack?", isMultipleAttack);
+        if (isMultipleAttack)
+        {
+            EditorGUILayout.Space();
+            attackQty = EditorGUILayout.IntField("Attacks Quantity", attackQty);
+            if (attackQty < 2)
+                attackQty = 2;
+        }
+        else
+            attackQty = 1;
+        EditorGUILayout.Space();
+
         levelRequirement = EditorGUILayout.IntField("Level Requirement", levelRequirement);
         if (levelRequirement<0)
         {
@@ -75,15 +94,13 @@ public class MagicAttackWindow : EditorWindow
         if (GUILayout.Button("Add Color"))
         {
             colorList.Add(ColorsEnum.Colors.BLACK);
-            percentajeList.Add(0);
-            colorIndex.Add(percentajeList.Count);
+            colorIndex.Add(colorList.Count);
         }
         if (colorIndex.Count>0)
         {
             if (GUILayout.Button("Remove Color"))
             {
                 colorList.RemoveAt(colorIndex.Count - 1);
-                percentajeList.RemoveAt(colorIndex.Count - 1);
                 colorIndex.RemoveAt(colorIndex.Count - 1);
             }
         }
@@ -95,11 +112,37 @@ public class MagicAttackWindow : EditorWindow
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("color" + actualColor + ":");
             colorList[index] = (ColorsEnum.Colors)EditorGUILayout.EnumPopup(colorList[index]);
-            percentajeList[index] = EditorGUILayout.FloatField(percentajeList[index]);
             EditorGUILayout.EndHorizontal();
         }
-
         EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
+        EditorGUILayout.BeginHorizontal();
+        if (GUILayout.Button("Add Tag"))
+        {
+            tagList.Add(AttackTagsEnum.Tags.SLASH);
+            tagIndex.Add(tagList.Count);
+        }
+        if (colorIndex.Count > 0)
+        {
+            if (GUILayout.Button("Remove Tag"))
+            {
+                tagList.RemoveAt(tagIndex.Count - 1);
+                tagIndex.RemoveAt(tagIndex.Count - 1);
+            }
+        }
+        EditorGUILayout.EndHorizontal();
+        foreach (int actualTag in tagIndex)
+        {
+            int index = tagIndex.IndexOf(actualTag);
+            EditorGUILayout.BeginHorizontal();
+            EditorGUILayout.LabelField("Tag " + actualTag + ":");
+            tagList[index] = (AttackTagsEnum.Tags)EditorGUILayout.EnumPopup(tagList[index]);
+            EditorGUILayout.EndHorizontal();
+        }
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
         EditorGUILayout.BeginHorizontal();
         if (GUILayout.Button("Create"))
         {
@@ -114,6 +157,7 @@ public class MagicAttackWindow : EditorWindow
             Close();
         }
         EditorGUILayout.EndHorizontal();
+        GUILayout.Space(15);
         EditorGUILayout.EndScrollView();
     }
 
@@ -131,13 +175,19 @@ public class MagicAttackWindow : EditorWindow
         scriptableAttack.isMeleeAttack = false;
         scriptableAttack.isAreaAttack = isAreaAttack;
         scriptableAttack.isBuff = isBuff;
+        scriptableAttack.attackQty = attackQty;
         scriptableAttack.levelRequirement = levelRequirement;
         scriptableAttack.jobsRequirement = jobRequirement;
         scriptableAttack.isCombination = false;
         foreach (int actualColor in colorIndex)
         {
             int index = colorIndex.IndexOf(actualColor);
-            scriptableAttack.AddColor(colorList[index], percentajeList[index]);
+            scriptableAttack.listOfColors.Add(colorList[index]);
+        }
+        foreach (int actualTag in tagIndex)
+        {
+            int index = tagIndex.IndexOf(actualTag);
+            scriptableAttack.listOfTags.Add(tagList[index]);
         }
         AssetDatabase.CreateAsset(scriptableAttack, path);
         EditorUtility.SetDirty(scriptableAttack);
@@ -148,6 +198,7 @@ public class MagicAttackWindow : EditorWindow
     {
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        Close();
     }
     private void ShowError(string error)
     {

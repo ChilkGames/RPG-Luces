@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseItem : ScriptableObject
+public class BaseItem : ScriptableObject, ITest
 {
     public string itemName;
     public string itemDescription;
@@ -12,4 +12,9 @@ public class BaseItem : ScriptableObject
     public List<StatusEnum.Status> statuses = new List<StatusEnum.Status>();
     public List<int> percentages = new List<int>();
     public int damage;
+
+    public void Use()
+    {
+        Debug.Log("USED");
+    }
 }

@@ -22,6 +22,11 @@ public class BaseAttack : ScriptableObject
     public bool isAreaAttack;
 
     /// <summary>
+    /// Defines the number of times an attack's gonna be reproduced
+    /// </summary>
+    public int attackQty;
+
+    /// <summary>
     /// Level requirement to unlock this attack
     /// </summary>
     public int levelRequirement;
@@ -37,6 +42,11 @@ public class BaseAttack : ScriptableObject
     public List<ColorsEnum.Colors> listOfColors = new List<ColorsEnum.Colors>();
 
     /// <summary>
+    /// List of tags for an attack
+    /// </summary>
+    public List<AttackTagsEnum.Tags> listOfTags = new List<AttackTagsEnum.Tags>();
+
+    /// <summary>
     /// If true, the attack is melee attack. If not, it´s magic attack.
     /// </summary>
     public bool isMeleeAttack;
@@ -48,16 +58,6 @@ public class BaseAttack : ScriptableObject
 
     public bool isCombination;
 
-    /// <summary>
-    /// Percentage of the color´s damage.
-    /// </summary>
-    public List<float> percentageOfColor = new List<float>();
-
-    public void AddColor(ColorsEnum.Colors colors, float percentage)
-    {
-        listOfColors.Add(colors);
-        percentageOfColor.Add(percentage);
-    }
 }
 
 

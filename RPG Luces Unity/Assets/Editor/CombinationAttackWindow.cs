@@ -14,9 +14,11 @@ public class CombinationAttackWindow : EditorWindow
     private bool isAreaAttack;
     private bool isBuff;
 
+    private bool isMultipleAttack;
+    private int attackQty;
+
     private List<int> colorIndex = new List<int>();
     private List<ColorsEnum.Colors> colorList = new List<ColorsEnum.Colors>();
-    private List<float> percentajeList = new List<float>();
 
     private List<int> attacksIndex = new List<int>();
     private List<BaseAttack> requiredAttacks = new List<BaseAttack>();
@@ -45,20 +47,30 @@ public class CombinationAttackWindow : EditorWindow
         EditorGUILayout.Space();
         attackDescription = EditorGUILayout.TextField("Attack Description", attackDescription);
         EditorGUILayout.Space();
-        baseDamage = EditorGUILayout.FloatField("Base Damage", baseDamage);
-        if (baseDamage < 0)
-        {
-            baseDamage = 0;
-        }
-        EditorGUILayout.Space();
-        manaCost = EditorGUILayout.FloatField("Mana Cost", manaCost);
-        if (manaCost < 0)
-        {
-            manaCost = 0;
-        }
-        EditorGUILayout.Space();
         isBuff = EditorGUILayout.Toggle("Is Buff?", isBuff);
         EditorGUILayout.Space();
+        if (!isBuff)
+        {
+            baseDamage = EditorGUILayout.FloatField("Base Damage", baseDamage);
+            if (baseDamage < 0)
+            {
+                baseDamage = 0;
+            }
+            EditorGUILayout.Space();
+        }
+
+        isMultipleAttack = EditorGUILayout.Toggle("Is Multiple Attack?", isMultipleAttack);
+        if (isMultipleAttack)
+        {
+            EditorGUILayout.Space();
+            attackQty = EditorGUILayout.IntField("Attacks Quantity", attackQty);
+            if (attackQty < 2)
+                attackQty = 2;
+        }
+        else
+            attackQty = 1;
+        EditorGUILayout.Space();
+
         isAreaAttack = EditorGUILayout.Toggle("Is Area Attack?", isAreaAttack);
         EditorGUILayout.Space();
 
@@ -66,15 +78,13 @@ public class CombinationAttackWindow : EditorWindow
         if (GUILayout.Button("Add Color"))
         {
             colorList.Add(ColorsEnum.Colors.BLUE);
-            percentajeList.Add(0);
-            colorIndex.Add(percentajeList.Count);
+            colorIndex.Add(colorList.Count);
         }
         if (colorIndex.Count > 0)
         {
             if (GUILayout.Button("Remove Color"))
             {
                 colorList.RemoveAt(colorIndex.Count - 1);
-                percentajeList.RemoveAt(colorIndex.Count - 1);
                 colorIndex.RemoveAt(colorIndex.Count - 1);
             }
         }
@@ -86,7 +96,6 @@ public class CombinationAttackWindow : EditorWindow
             EditorGUILayout.BeginHorizontal();
             EditorGUILayout.LabelField("color" + actualColor + ":");
             colorList[index] = (ColorsEnum.Colors)EditorGUILayout.EnumPopup(colorList[index]);
-            percentajeList[index] = EditorGUILayout.FloatField(percentajeList[index]);
             EditorGUILayout.EndHorizontal();
         }
 
@@ -163,6 +172,7 @@ public class CombinationAttackWindow : EditorWindow
         scriptableAttack.baseDamage = baseDamage;
         scriptableAttack.manaCost = manaCost;
         scriptableAttack.isMeleeAttack = false;
+        scriptableAttack.attackQty = attackQty;
         scriptableAttack.isAreaAttack = isAreaAttack;
         scriptableAttack.isBuff = isBuff;
         scriptableAttack.levelRequirement = 1;
@@ -171,7 +181,7 @@ public class CombinationAttackWindow : EditorWindow
         foreach (int actualColor in colorIndex)
         {
             int index = colorIndex.IndexOf(actualColor);
-            scriptableAttack.AddColor(colorList[index], percentajeList[index]);
+            scriptableAttack.listOfColors.Add(colorList[index]);
         }
         scriptableAttack.combinationOfAttacks = requiredAttacks;
         AssetDatabase.CreateAsset(scriptableAttack, path);
@@ -183,6 +193,7 @@ public class CombinationAttackWindow : EditorWindow
     {
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        Close();
     }
 
     private void ShowError(string error)

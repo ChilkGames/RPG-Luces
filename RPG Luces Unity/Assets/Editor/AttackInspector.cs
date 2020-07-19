@@ -40,18 +40,42 @@ public class AttackInspector : Editor
         if (!attack.isMeleeAttack)
             EditorGUILayout.LabelField("Mana Cost: " + attack.manaCost, CustomStyles.bold);
         EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Number of attacks: " + attack.attackQty, CustomStyles.bold);
+        EditorGUILayout.Space();
         EditorGUILayout.LabelField("Level Required: " + attack.levelRequirement, CustomStyles.bold);
+        EditorGUILayout.Space();
         EditorGUILayout.LabelField("Job Required: " + attack.jobsRequirement, CustomStyles.bold);
         EditorGUILayout.Space();
         EditorGUILayout.Space();
+
         EditorGUILayout.LabelField("Colors: ", CustomStyles.bold);
-        foreach (var actualColor in attack.listOfColors)
+        if (attack.listOfColors.Count <= 0)
+            EditorGUILayout.LabelField("None", CustomStyles.bold);
+        else
         {
-            int index = attack.listOfColors.IndexOf(actualColor);
-            EditorGUILayout.LabelField(actualColor + " " + attack.percentageOfColor[index] + " %", CustomStyles.bold);
+            foreach (var actualColor in attack.listOfColors)
+            {
+                int index = attack.listOfColors.IndexOf(actualColor);
+                EditorGUILayout.LabelField("" + actualColor, CustomStyles.bold);
+            }
         }
         EditorGUILayout.Space();
         EditorGUILayout.Space();
+
+        EditorGUILayout.LabelField("Tags: ", CustomStyles.bold);
+        if (attack.listOfTags.Count<=0)
+            EditorGUILayout.LabelField("None", CustomStyles.bold);
+        else
+        {
+            foreach (var actualTag in attack.listOfTags)
+            {
+                int index = attack.listOfTags.IndexOf(actualTag);
+                EditorGUILayout.LabelField("" + actualTag, CustomStyles.bold);
+            }
+        }  
+        EditorGUILayout.Space();
+        EditorGUILayout.Space();
+
         if (GUILayout.Button("Edit"))
         {
             if (attack.isMeleeAttack)

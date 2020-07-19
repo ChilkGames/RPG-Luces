@@ -9,7 +9,11 @@ public class LoadMeleeWindow : EditorWindow
 
     private List<int> colorIndex = new List<int>();
 
+    private List<int> tagIndex = new List<int>();
+
     private Vector2 scrollPosition;
+
+    private bool isMultiple;
 
     public static void OpenWindow(BaseAttack attack)
     {
@@ -17,10 +21,20 @@ public class LoadMeleeWindow : EditorWindow
         myWindow.wantsMouseMove = true;
         myWindow.title = "Edit Melee Attack";
         myWindow.baseAttack = attack;
-        for (int i =0; i<attack.percentageOfColor.Count; i++)
+        for (int i =0; i<attack.listOfColors.Count; i++)
         {
             myWindow.colorIndex.Add(i);
         }
+
+        for (int i = 0; i < attack.listOfTags.Count; i++)
+        {
+            myWindow.tagIndex.Add(i);
+        }
+
+        if (myWindow.baseAttack.attackQty < 2)
+            myWindow.isMultiple = false;
+        else
+            myWindow.isMultiple = true;
         myWindow.Show();
     }
 
@@ -45,6 +59,19 @@ public class LoadMeleeWindow : EditorWindow
             EditorGUILayout.Space();
             baseAttack.isAreaAttack = EditorGUILayout.Toggle("Is Area Attack?", baseAttack.isAreaAttack);
             EditorGUILayout.Space();
+
+            isMultiple = EditorGUILayout.Toggle("Is Multiple Attack?", isMultiple);
+            if (isMultiple)
+            {
+                EditorGUILayout.Space();
+                baseAttack.attackQty = EditorGUILayout.IntField("Attacks Quantity", baseAttack.attackQty);
+                if (baseAttack.attackQty < 2)
+                    baseAttack.attackQty = 2;
+            }
+            else
+                baseAttack.attackQty = 1;
+            EditorGUILayout.Space();
+
             baseAttack.levelRequirement = EditorGUILayout.IntField("Level Requirement", baseAttack.levelRequirement);
             if (baseAttack.levelRequirement < 0)
             {
@@ -53,20 +80,19 @@ public class LoadMeleeWindow : EditorWindow
             EditorGUILayout.Space();
             baseAttack.jobsRequirement = (JobsEnum.Jobs)EditorGUILayout.EnumPopup("Job Requirement", baseAttack.jobsRequirement);
             EditorGUILayout.Space();
+            EditorGUILayout.Space();
 
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Add Color"))
             {
                 baseAttack.listOfColors.Add(ColorsEnum.Colors.BLUE);
-                baseAttack.percentageOfColor.Add(0);
-                colorIndex.Add(baseAttack.percentageOfColor.Count);
+                colorIndex.Add(baseAttack.listOfColors.Count);
             }
             if (colorIndex.Count > 0)
             {
                 if (GUILayout.Button("Remove Color"))
                 {
                     baseAttack.listOfColors.RemoveAt(colorIndex.Count - 1);
-                    baseAttack.percentageOfColor.RemoveAt(colorIndex.Count - 1);
                     colorIndex.RemoveAt(colorIndex.Count - 1);
                 }
             }
@@ -78,9 +104,39 @@ public class LoadMeleeWindow : EditorWindow
                 EditorGUILayout.BeginHorizontal();
                 EditorGUILayout.LabelField("color" + actualColor + ":");
                 baseAttack.listOfColors[index] = (ColorsEnum.Colors)EditorGUILayout.EnumPopup(baseAttack.listOfColors[index]);
-                baseAttack.percentageOfColor[index] = EditorGUILayout.FloatField(baseAttack.percentageOfColor[index]);
                 EditorGUILayout.EndHorizontal();
             }
+
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+
+            EditorGUILayout.BeginHorizontal();
+            if (GUILayout.Button("Add Tag"))
+            {
+                baseAttack.listOfTags.Add(AttackTagsEnum.Tags.SLASH);
+                tagIndex.Add(baseAttack.listOfTags.Count);
+            }
+            if (colorIndex.Count > 0)
+            {
+                if (GUILayout.Button("Remove Tag"))
+                {
+                    baseAttack.listOfTags.RemoveAt(tagIndex.Count - 1);
+                    tagIndex.RemoveAt(tagIndex.Count - 1);
+                }
+            }
+            EditorGUILayout.EndHorizontal();
+
+            foreach (int actualTag in tagIndex)
+            {
+                int index = tagIndex.IndexOf(actualTag);
+                EditorGUILayout.BeginHorizontal();
+                EditorGUILayout.LabelField("Tag " + actualTag + ":");
+                baseAttack.listOfTags[index] = (AttackTagsEnum.Tags)EditorGUILayout.EnumPopup(baseAttack.listOfTags[index]);
+                EditorGUILayout.EndHorizontal();
+            }
+            EditorGUILayout.Space();
+            EditorGUILayout.Space();
+
             EditorGUILayout.BeginHorizontal();
             if (GUILayout.Button("Save Changes"))
             {
@@ -92,6 +148,7 @@ public class LoadMeleeWindow : EditorWindow
                 Close();
             }
             EditorGUILayout.EndHorizontal();
+            GUILayout.Space(15);
         }
         EditorGUILayout.EndScrollView();
     }
@@ -100,5 +157,6 @@ public class LoadMeleeWindow : EditorWindow
     {
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        Close();
     }
 }

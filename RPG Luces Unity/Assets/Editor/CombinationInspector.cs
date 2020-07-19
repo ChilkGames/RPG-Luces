@@ -35,6 +35,8 @@ public class CombinationInspector : Editor
         if (!attack.isBuff)
             EditorGUILayout.LabelField("Base Damage: " + attack.baseDamage, CustomStyles.bold);
         EditorGUILayout.Space();
+        EditorGUILayout.LabelField("Number of attacks: " + attack.attackQty, CustomStyles.bold);
+        EditorGUILayout.Space();
         EditorGUILayout.LabelField("Level Required: " + attack.levelRequirement, CustomStyles.bold);
         EditorGUILayout.LabelField("Job Required: " + attack.jobsRequirement, CustomStyles.bold);
         EditorGUILayout.Space();
@@ -51,7 +53,7 @@ public class CombinationInspector : Editor
         foreach (var actualColor in attack.listOfColors)
         {
             int index = attack.listOfColors.IndexOf(actualColor);
-            EditorGUILayout.LabelField(actualColor + " " + attack.percentageOfColor[index] + " %", CustomStyles.bold);
+            EditorGUILayout.LabelField(actualColor + "", CustomStyles.bold);
         }
         EditorGUILayout.Space();
         EditorGUILayout.Space();

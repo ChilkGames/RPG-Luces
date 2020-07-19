@@ -127,6 +127,7 @@ public class ItemWindow : EditorWindow
     {
         AssetDatabase.SaveAssets();
         AssetDatabase.Refresh();
+        Close();
     }
 
     private void ShowError(string error)
