@@ -17,16 +17,22 @@ public class CombatToken : MonoBehaviour
     public float animationSpeed;
     public float positionDelta;
 
-    public CombatToken(Image image)
+    public CombatToken(Image image, Vector3 position)
     {
         _tokenImage = image;
+        Spawn(position);
+    }
+
+    private void Spawn(Vector3 position)
+    {
+        transform.position = position;
     }
 
     private void Update()
     {
         if (_animating && _animationType == MOVING_ANIMATION)
             _animating = !MoveToPosition(_newPosition);
-    
+
     }
 
     public void ChangeImage(Image newImage)
@@ -50,5 +56,16 @@ public class CombatToken : MonoBehaviour
     {
         _animating = true;
         _animationType = FADE_ANIMATION;
+    }
+
+    public static void InitCallback(CombatToken token)
+    {
+        token.MoveToPosition(Vector3.zero);
+        token.gameObject.SetActive(true);
+    }
+
+    public static void DisposeCallback(CombatToken token)
+    {
+        token.gameObject.SetActive(false);
     }
 }
