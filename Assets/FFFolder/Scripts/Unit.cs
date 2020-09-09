@@ -17,10 +17,7 @@ public class Unit : MonoBehaviour
     {
         currentHP -= dmg;
 
-        if (currentHP <= 0)
-            return true;
-        else
-            return false;
+        return currentHP <= 0;
     }
 
 }
