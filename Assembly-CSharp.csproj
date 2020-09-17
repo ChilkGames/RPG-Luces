@@ -62,8 +62,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Assets\FFFolder\Scripts\BattleHUD.cs" />
-    <Compile Include="Assets\FFFolder\Scripts\BattleSystem.cs" />
+    <Compile Include="Assets\FFFolder\Scripts\ListsTest.cs" />
+    <Compile Include="Assets\FFFolder\Scripts\Player.cs" />
+    <Compile Include="Assets\FFFolder\Scripts\TurnsTest.cs" />
     <Compile Include="Assets\FFFolder\Scripts\Unit.cs" />
     <Compile Include="Assets\PlayMaker\Actions\ActionHelpers.cs" />
     <Compile Include="Assets\PlayMaker\Actions\AnimateVariables\AnimateColor.cs" />

@@ -90,11 +90,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1351724854545263016}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aebf8cdbc03b17442976e349bfe0c42a, type: 3}
+  m_Script: {fileID: 11500000, guid: 03e1ef965e6259b44a5de20cc186a397, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unitName: Hero 1
-  unitLevel: 1
-  damage: 10
-  maxHP: 100
-  currentHP: 0

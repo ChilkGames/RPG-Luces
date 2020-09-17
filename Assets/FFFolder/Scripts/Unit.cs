@@ -2,22 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Unit : MonoBehaviour
+[System.Serializable]
+public class Unit
 {
-
     public string unitName;
     public int unitLevel;
 
-    public int damage;
-
     public int maxHP;
     public int currentHP;
+    public int maxMP;
+    public int currentMP;
 
-    public bool TakeDamage(int dmg)
-    {
-        currentHP -= dmg;
-
-        return currentHP <= 0;
-    }
-
+    //public int spd;
+    //public int damage;
 }
